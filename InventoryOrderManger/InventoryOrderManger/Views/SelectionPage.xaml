@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="InventoryOrderManger.Views.SelectionPage">
+  <!--Pages can be added as references or inline-->
+    <ContentPage Title="Create">
+        <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50">
+            <Button Text="Item" Clicked="OnCreateItem_Clicked" BackgroundColor="LawnGreen"/>
+            <Button Text="Order" Clicked="OnCreateOrder_Clicked" BackgroundColor="LawnGreen"/>
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage Title="View" >
+        <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50">
+            <Button Text="Item" Clicked="OnViewItem_Clicked" BackgroundColor="DeepSkyBlue"/>
+            <Button Text="Order" Clicked="OnViewOrder_Clicked" BackgroundColor="DeepSkyBlue"/>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>
