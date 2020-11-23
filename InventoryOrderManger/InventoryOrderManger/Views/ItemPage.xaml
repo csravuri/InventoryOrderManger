@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="InventoryOrderManger.Views.ItemPage"
+             Title="Item">
+    <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Image BackgroundColor="Orange" 
+                   x:Name="itemImage"
+                   HeightRequest="250">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CaptureImage"/>                
+                </Image.GestureRecognizers>
+            </Image>
+            <StackLayout>
+                <Entry Placeholder="Item Name" PlaceholderColor="Gray" Keyboard="Chat" x:Name="itemName"/>
+                <Entry Placeholder="Sell Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="sellPrice"/>
+                <Entry Placeholder="Description" PlaceholderColor="Gray" Keyboard="Chat" x:Name="description"/>
+                <Entry Placeholder="Purchase Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="purchasePrice"/>
+                <Entry Placeholder="Stock Qty" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="stockQty"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Back" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Red" 
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="OnBack"/>
+                <Button Text="Clear" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Red" 
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="OnClear"
+                        x:Name="btnClear"/>
+                <Button Text="Save" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" 
+                        TextColor="Green"
+                        Clicked="OnSave"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

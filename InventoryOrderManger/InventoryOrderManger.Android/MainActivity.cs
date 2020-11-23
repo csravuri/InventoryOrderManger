@@ -29,5 +29,7 @@ namespace InventoryOrderManger.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+
     }
 }

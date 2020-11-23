@@ -11,8 +11,9 @@ namespace InventoryOrderManger.Database
 {
     public class DbConnection
     {
-        private SQLiteAsyncConnection _coneection;
-        public DbConnection()
+        private SQLiteAsyncConnection _connection;
+        private static DbConnection _dbConnection;
+        private DbConnection()
         {
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Database");
 
@@ -20,35 +21,45 @@ namespace InventoryOrderManger.Database
 
             string dbPath = Path.Combine(folderPath, "InventoryOrderMangerDB.db3");
 
-            _coneection = new SQLiteAsyncConnection(dbPath);
+            _connection = new SQLiteAsyncConnection(dbPath);
 
             CreateTable();
 
         }
 
+        public static DbConnection GetDbConnection()
+        {
+            if(_dbConnection == null)
+            {
+                _dbConnection = new DbConnection();
+            }
+
+            return _dbConnection;
+        }
+
         private async void CreateTable()
         {
-            await _coneection.CreateTableAsync<Item>();
+            await _connection.CreateTableAsync<Item>();
         }
 
         public void InsertItem(Item item)
         {
-            _coneection.InsertAsync(item);
+            _connection.InsertAsync(item);
         }
 
         public void UpdateItem(Item item)
         {
-            _coneection.UpdateAsync(item);
+            _connection.UpdateAsync(item);
         }
 
         public void DeleteItem(Item item)
         {
-            _coneection.DeleteAsync(item);
+            _connection.DeleteAsync(item);
         }
 
         public async Task<List<Item>> GetItems()
         {
-            return await _coneection.Table<Item>().ToListAsync();
+            return await _connection.Table<Item>().ToListAsync();
         }
     }
 }

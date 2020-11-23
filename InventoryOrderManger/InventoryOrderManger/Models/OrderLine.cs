@@ -13,7 +13,5 @@ namespace InventoryOrderManger.Models
         public decimal ItemSellPrice { get; set; }
         public decimal ItemOrderQty { get; set; }
         public decimal ItemTotalPrice { get; set; }
-
-
     }
 }

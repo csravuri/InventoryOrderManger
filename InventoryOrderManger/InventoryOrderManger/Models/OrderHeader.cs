@@ -12,7 +12,5 @@ namespace InventoryOrderManger.Models
         public string OrderNo { get; set; }
         public string CustomerName { get; set; }
         public decimal OrderTotalPrice { get; set; }
-
-
     }
 }

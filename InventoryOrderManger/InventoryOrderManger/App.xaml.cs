@@ -11,7 +11,7 @@ namespace InventoryOrderManger
         {
             InitializeComponent();
 
-            MainPage = new SelectionPage();
+            MainPage = new NavigationPage(new SelectionPage());
         }
 
         protected override void OnStart()
