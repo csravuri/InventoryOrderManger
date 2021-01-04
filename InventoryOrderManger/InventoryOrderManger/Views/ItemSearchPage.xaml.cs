@@ -27,9 +27,9 @@ namespace InventoryOrderManger.Views
         {
             try
             {
-                var abc = await dbConnection.GetItems();
+                var itemDB = await dbConnection.GetItems();
 
-                _itemsFromDB = new ObservableCollection<Item>(abc);
+                _itemsFromDB = new ObservableCollection<Item>(itemDB);
                 this.listView.ItemsSource = _itemsFromDB;
             }
             catch (SQLiteException ee)
@@ -72,7 +72,7 @@ namespace InventoryOrderManger.Views
             Item selectedItem = menuItem.CommandParameter as Item;
 
             _itemsFromDB.Remove(selectedItem);
-            dbConnection.DeleteItem(selectedItem);
+            _ = dbConnection.DeleteRecord(selectedItem);
         }
 
         private void OnSearch(object sender, EventArgs e)

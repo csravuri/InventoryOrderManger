@@ -2,14 +2,104 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:views="clr-namespace:InventoryOrderManger.Views"
              mc:Ignorable="d"
              x:Class="InventoryOrderManger.Views.OrderPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Entry Placeholder="Customer Name"                             
+                       PlaceholderColor="Gray" 
+                       HorizontalOptions="FillAndExpand"
+                       Keyboard="Chat"
+                       Text="{Binding Path=OrderHeader.CustomerName}"/>
+                    <Button Text="Add Item"
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Green" 
+                        HorizontalOptions="End"
+                        Clicked="OnAddItem"/>
+                </StackLayout>
+                <ListView 
+                    ItemsSource="{Binding OrderLines}"
+                    HasUnevenRows="True" 
+                    VerticalOptions="Start" 
+                    SeparatorVisibility="None" 
+                    CachingStrategy="RecycleElement"
+                    ItemSelected="ListView_ItemSelected">
+                    <ListView.Header>
+                        <StackLayout>
+                            <Grid ColumnSpacing="2" RowSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="0.75*"/>
+                                    <ColumnDefinition Width="0.75*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="Name" VerticalOptions="End" />
+                                <Label Grid.Column="1" Text="Qty" VerticalOptions="End" />
+                                <Label Grid.Column="2" Text="Price" VerticalOptions="End" />
+                                <Label Grid.Column="3" Text="Total" VerticalOptions="End" />
+                            </Grid>
+                            <StackLayout Padding="1" BackgroundColor="#000000"/>
+                        </StackLayout>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>                                
+                                <StackLayout>
+                                    <Grid ColumnSpacing="2" RowSpacing="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="1"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1"/>
+                                            <ColumnDefinition Width="0.75*"/>
+                                            <ColumnDefinition Width="1"/>
+                                            <ColumnDefinition Width="0.75*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding ItemName}" VerticalOptions="Center" />
+                                        <StackLayout  Grid.Column="1" Padding="1" BackgroundColor="#d9d9d9"/>
+                                        <views:QuantityView Grid.Column="2" QuantityText="{Binding ItemOrderQty}" ValueChanged="OnQuantityValueChange" CommandParameter="{Binding .}"/>
+                                        <StackLayout Grid.Column="3" Padding="1" BackgroundColor="#d9d9d9"/>
+                                        <Label Grid.Column="4" Text="{Binding ItemSellPrice}"/>
+                                        <StackLayout Grid.Column="5" Padding="1" BackgroundColor="#d9d9d9"/>
+                                        <Label Grid.Column="6" Text="{Binding ItemTotalPrice}"/>
+                                    </Grid>
+                                    <StackLayout Padding="1" BackgroundColor="#d9d9d9"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Text="{Binding Path=OrderHeader.OrderTotalPrice, Mode=TwoWay , StringFormat='Final Total Price = {0:F2}'}" 
+                       HorizontalOptions="EndAndExpand" 
+                       FontSize="17"
+                       TextColor="#1277fc"/>
+            </StackLayout>
+            
+            
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                <Button Text="Back" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Red" 
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="OnBack"/>
+                <Button Text="Clear" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Red" 
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="OnClear"
+                        x:Name="btnClear"/>
+                <Button Text="Save" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" 
+                        TextColor="Green"
+                        Clicked="OnSave"/>
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

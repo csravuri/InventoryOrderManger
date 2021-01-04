@@ -40,26 +40,62 @@ namespace InventoryOrderManger.Database
         private async void CreateTable()
         {
             await _connection.CreateTableAsync<Item>();
+            await _connection.CreateTableAsync<OrderHeader>();
+            await _connection.CreateTableAsync<OrderLine>();
+            await _connection.CreateTableAsync<Sequence>();
         }
 
-        public void InsertItem(Item item)
+        public async Task InsertRecord<E>(E item) where E : BaseModel
         {
-            _connection.InsertAsync(item);
+            await _connection.InsertAsync(item);
         }
 
-        public void UpdateItem(Item item)
+        public async Task UpdateRecord<E>(E item) where E : BaseModel
         {
-            _connection.UpdateAsync(item);
+            await _connection.UpdateAsync(item);
         }
 
-        public void DeleteItem(Item item)
+        public async Task DeleteRecord<E>(E item) where E : BaseModel
         {
-            _connection.DeleteAsync(item);
+            await _connection.DeleteAsync(item);
         }
+        public async Task InsertRecord<E>(List<E> items) where E : BaseModel
+        {
+            await _connection.InsertAllAsync(items);
+        }
+
+        public async Task UpdateRecord<E>(List<E> items) where E : BaseModel
+        {
+            await _connection.UpdateAllAsync(items);
+        }
+
+        public async Task DeleteRecord<E>(List<E> items) where E : BaseModel
+        {
+            foreach (E item in items)
+            {
+                await DeleteRecord<E>(item);
+            }
+        }
+
 
         public async Task<List<Item>> GetItems()
         {
             return await _connection.Table<Item>().ToListAsync();
         }
+        public async Task<List<OrderHeader>> GetOrderHeaders()
+        {
+            return await _connection.Table<OrderHeader>().ToListAsync();
+        }
+
+        public async Task<List<OrderLine>> GetOrderLines()
+        {
+            return await _connection.Table<OrderLine>().ToListAsync();
+        }
+
+        public async Task<List<Sequence>> GetSequences()
+        {
+            return await _connection.Table<Sequence>().ToListAsync();
+        }
+
     }
 }

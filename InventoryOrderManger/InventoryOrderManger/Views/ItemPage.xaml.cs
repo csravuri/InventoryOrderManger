@@ -118,14 +118,14 @@ namespace InventoryOrderManger.Views
 
                 if (_item.ItemID != 0)
                 {
-                    dbConnection.UpdateItem(_item);
+                    await dbConnection.UpdateRecord(_item);
                     await DisplayAlert("Success", $"{_item.ItemName} updated.", "OK");
                     await Navigation.PopAsync();
                 }
                 else
                 {
-                    dbConnection.InsertItem(_item);
-                    await DisplayAlert("Success", $"{_item.ItemName} saved.", "OK");
+                    await dbConnection.InsertRecord(_item);
+                    await DisplayAlert("Success", $"{_item.ItemName} created.", "OK");
                 }
 
                 ClearControls();

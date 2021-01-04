@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace InventoryOrderManger.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SelectionPage : TabbedPage
+    public partial class SelectionPage : ContentPage
     {
         SelectionController selectionController = null;
         public SelectionPage()
@@ -33,12 +33,12 @@ namespace InventoryOrderManger.Views
 
         private void OnCreateOrder_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new OrderPage(Enumerations.OperationType.Create));
         }
         
         private void OnViewOrder_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new OrderSearchPage());
         }
     }
 }

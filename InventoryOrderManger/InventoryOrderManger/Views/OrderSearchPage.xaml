@@ -4,12 +4,50 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="InventoryOrderManger.Views.OrderSearchPage">
+             x:Class="InventoryOrderManger.Views.OrderSearchPage"
+             Title="Search Orders">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                <Button Text="New" 
+                    Clicked="CreateNewOrder" 
+                    BackgroundColor="Transparent" 
+                    BorderColor="Transparent" 
+                    TextColor="Green" 
+                    HorizontalOptions="Start" WidthRequest="40" Padding="0"/>
+                <SearchBar Placeholder="Search here ..."
+                       x:Name="searchBar" 
+                       TextChanged="OnSearch" 
+                       SearchButtonPressed="OnSearch" 
+                       HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+            <ListView x:Name="listView"
+                      ItemsSource="{Binding OrderHeaders}"
+                      ItemTapped="listView_ItemTapped"
+                      ItemSelected="listView_ItemSelected"
+                      SeparatorColor="Red"                  
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row='0' Grid.Column='0' Text="{Binding CustomerName, StringFormat='Customer: {0}'}"/>
+                                <Label Grid.Row='0' Grid.Column='1' Text="{Binding CreatedDate, StringFormat='Date: {0}'}"/>
+                                <Label Grid.Row='1' Grid.Column='0' Text="{Binding OrderNo, StringFormat='Order No: {0}'}"/>
+                                <Label Grid.Row='1' Grid.Column='1' Text="{Binding OrderTotalPrice, StringFormat='Total: {0}'}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

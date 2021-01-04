@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="InventoryOrderManger.Views.ItemSelectPage"
+             Title="Select Items">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start" Spacing="0">
+                <Button Text="New" 
+                    Clicked="CreateNewStock" 
+                    BackgroundColor="Transparent" 
+                    BorderColor="Transparent" 
+                    TextColor="Green" 
+                    HorizontalOptions="Start" WidthRequest="40" Padding="0"/>
+                <SearchBar Placeholder="Search here ..." 
+                       x:Name="searchBar" 
+                       TextChanged="OnSearch" 
+                       SearchButtonPressed="OnSearch" 
+                       HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+            <ListView x:Name="listView"
+                      ItemTapped="listView_ItemTapped"
+                      ItemSelected="listView_ItemSelected"
+                      ItemsSource="{Binding Items}"
+                      SeparatorColor="Red"                  
+                      HasUnevenRows="True" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding ImagePath}" WidthRequest="70" HeightRequest="50"/>
+                                <StackLayout>
+                                    <Label Text="{Binding ItemName, StringFormat='Name: {0}'}" FontSize="Medium" TextColor="Blue"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding SellPrice, StringFormat='Price: {0:F2}'}" TextColor="Gray"/>
+                                        <Label Text="{Binding Description, StringFormat='Desc: {0}'}" TextColor="Gray"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Button Text="+" 
+                                        FontSize="25"
+                                        WidthRequest="40"
+                                        HorizontalOptions="EndAndExpand"
+                                        BorderColor="Transparent"
+                                        BackgroundColor="Transparent"
+                                        CommandParameter="{Binding .}" 
+                                        Clicked="OnAdd">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="false">
+                                                    <Setter Property="Text" Value="+"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="true">
+                                                    <Setter Property="Text" Value="-"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="false">
+                                                    <Setter Property="TextColor" Value="#00ba4a"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="true">
+                                                    <Setter Property="TextColor" Value="#f50c0c"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Back" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" TextColor="Red" 
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="OnBack"/>
+                <Button Text="Done" 
+                        BackgroundColor="Transparent" 
+                        BorderColor="Transparent" 
+                        TextColor="Green"
+                        Clicked="OnDone"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

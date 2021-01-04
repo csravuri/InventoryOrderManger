@@ -1,22 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            x:Class="InventoryOrderManger.Views.SelectionPage"
-            NavigationPage.HasNavigationBar="False">
-  <!--Pages can be added as references or inline-->
-    <ContentPage Title="Create">
-        <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50">
-            <Button Text="Item" Clicked="OnCreateItem_Clicked" BackgroundColor="LawnGreen"/>
-            <Button Text="Order" Clicked="OnCreateOrder_Clicked" BackgroundColor="LawnGreen"/>
+             x:Class="InventoryOrderManger.Views.SelectionPage">
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="IO Manager" TextColor="#FFFFFF" FontSize="18"/>
+            <Label Text="Inventory-Order Manager" TextColor="#00FF99"/>
         </StackLayout>
-    </ContentPage>
-
-    <ContentPage Title="View" >
-        <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50">
-            <Button Text="Item" Clicked="OnViewItem_Clicked" BackgroundColor="DeepSkyBlue"/>
-            <Button Text="Order" Clicked="OnViewOrder_Clicked" BackgroundColor="DeepSkyBlue"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Item" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
+                <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
+                    <Button Text="Create" Clicked="OnCreateItem_Clicked" TextColor="#00b558" BorderColor="Transparent" BackgroundColor="Transparent"/>
+                    <Button Text="View" Clicked="OnViewItem_Clicked" TextColor="#0ec4a9" BorderColor="Transparent" BackgroundColor="Transparent"/>
+                </StackLayout>                
+            </StackLayout>
+            <StackLayout Padding="1" BackgroundColor="Brown"/>
+            <StackLayout>
+                <Label Text="Order" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
+                <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
+                    <Button Text="Create" Clicked="OnCreateOrder_Clicked" TextColor="#00b558" BorderColor="Transparent" BackgroundColor="Transparent"/>
+                    <Button Text="View" Clicked="OnViewOrder_Clicked" TextColor="#0ec4a9" BorderColor="Transparent" BackgroundColor="Transparent"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Padding="1" BackgroundColor="Brown"/>
         </StackLayout>
-    </ContentPage>
-</TabbedPage>
+    </ContentPage.Content>
+</ContentPage>

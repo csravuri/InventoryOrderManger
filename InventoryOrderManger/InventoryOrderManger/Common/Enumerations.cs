@@ -12,5 +12,10 @@ namespace InventoryOrderManger.Common
             Update,
             ExpressCreate
         }
+
+        public enum SequenceType
+        {
+            SO
+        }
     }
 }

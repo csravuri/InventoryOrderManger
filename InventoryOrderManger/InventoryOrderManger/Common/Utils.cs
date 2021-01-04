@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace InventoryOrderManger.Common
 {
@@ -84,6 +86,12 @@ namespace InventoryOrderManger.Common
             {
                 return text.ToString();
             }
+        }
+        public static void AddRange<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> list)
+        {
+            if (list == null) { throw new ArgumentNullException(nameof(list)); }
+            
+            list.ForEach(x => observableCollection.Add(x));
         }
     }
 }

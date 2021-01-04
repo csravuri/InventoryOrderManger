@@ -5,14 +5,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="InventoryOrderManger.Views.ItemSearchPage"
-             NavigationPage.HasNavigationBar="False">
-    <StackLayout>
+             Title="Search / Update Items">
+    <StackLayout>        
         <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-            <SearchBar Placeholder="Search Item here ..." 
+            <Button Text="New" 
+                    Clicked="CreateNewStock" 
+                    BackgroundColor="Transparent" 
+                    BorderColor="Transparent" 
+                    TextColor="Green" 
+                    HorizontalOptions="Start" WidthRequest="40" Padding="0"/>
+            <SearchBar Placeholder="Search here ..."
                        x:Name="searchBar" 
                        TextChanged="OnSearch" 
-                       SearchButtonPressed="OnSearch"/>
-            <Button Text="New" Clicked="CreateNewStock" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="Green" HorizontalOptions="EndAndExpand" WidthRequest="70"/>
+                       SearchButtonPressed="OnSearch" 
+                       HorizontalOptions="FillAndExpand"/>           
         </StackLayout>
         <ListView x:Name="listView"
                   ItemTapped="listView_ItemTapped"
