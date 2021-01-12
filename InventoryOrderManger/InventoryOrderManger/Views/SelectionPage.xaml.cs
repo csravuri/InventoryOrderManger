@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Controllers;
+using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,11 +15,10 @@ namespace InventoryOrderManger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SelectionPage : ContentPage
     {
-        SelectionController selectionController = null;
+        private DbConnection dbConnection = DbConnection.GetDbConnection();
         public SelectionPage()
         {
-            InitializeComponent();
-            selectionController = new SelectionController();            
+            InitializeComponent();          
         }
 
         private void OnCreateItem_Clicked(object sender, EventArgs e)
@@ -39,6 +39,17 @@ namespace InventoryOrderManger.Views
         private void OnViewOrder_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new OrderSearchPage());
+        }
+
+        private void OnBackup_Clicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Comming soon!", dbConnection.GetDBPath(), "OK");
+
+        }
+
+        private void OnRestore_Clicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Comming soon!", dbConnection.GetDBPath(), "OK");            
         }
     }
 }

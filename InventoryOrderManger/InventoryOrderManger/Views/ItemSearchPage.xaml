@@ -23,7 +23,7 @@
         <ListView x:Name="listView"
                   ItemTapped="listView_ItemTapped"
                   ItemSelected="listView_ItemSelected"
-                  SeparatorColor="Red"                  
+                  SeparatorVisibility="None"
                   HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -31,16 +31,18 @@
                         <ViewCell.ContextActions>
                             <MenuItem Text="Delete" IsDestructive="True" Clicked="OnItemDelete" CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>
-                        <StackLayout Orientation="Horizontal">
-                            <Image Source="{Binding ImagePath}" WidthRequest="70" HeightRequest="50"/>
-                            <StackLayout>
-                                <Label Text="{Binding ItemName, StringFormat='Name: {0}'}" FontSize="Medium" TextColor="Blue"/>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding SellPrice, StringFormat='Price: {0:F2}'}" TextColor="Gray"/>
-                                    <Label Text="{Binding Description, StringFormat='Desc: {0}'}" TextColor="Gray"/>
+                        <Frame Margin="4" Padding="4,2,4,2" HasShadow="True" CornerRadius="4">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding ImagePath}" WidthRequest="70" HeightRequest="50"/>
+                                <StackLayout>
+                                    <Label Text="{Binding ItemName, StringFormat='Name: {0}'}" FontSize="Medium" TextColor="Blue"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding SellPrice, StringFormat='Price: {0:F2}'}" TextColor="Gray"/>
+                                        <Label Text="{Binding Description, StringFormat='Desc: {0}'}" TextColor="Gray"/>
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
-                        </StackLayout>
+                        </Frame>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

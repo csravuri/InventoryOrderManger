@@ -85,8 +85,8 @@ namespace InventoryOrderManger.Views
                 {
                     PhotoSize = PhotoSize.Full,
                     Name = Utils.GetDateTimeFileName(".jpg"),
-                    AllowCropping = true
-
+                    AllowCropping = true,
+                    MaxWidthHeight = 100
                 });
 
                 if (file == null)

@@ -113,6 +113,11 @@ namespace InventoryOrderManger.Views
 
         private async void OnSave(object sender, EventArgs e)
         {
+            if (!ValidateOrders())
+            {
+                return;
+            }
+
             if (OrderHeader.OrderID != 0)
             {
                 await dbConnection.UpdateRecord(OrderHeader);
@@ -121,9 +126,6 @@ namespace InventoryOrderManger.Views
                 {
                     line.OrderID = OrderHeader.OrderID;
                 }
-
-                // for lines may be need to add create and update seperately and 
-                // Lines also might need a primary key
 
                 await dbConnection.UpdateRecord(OrderLines.Where(x => x.OrderLineID != 0).ToList());
                 await dbConnection.InsertRecord(OrderLines.Where(x => x.OrderLineID == 0).ToList());
@@ -148,6 +150,17 @@ namespace InventoryOrderManger.Views
             ClearControls();
         }
 
+        private bool ValidateOrders()
+        {
+            if (OrderLines == null || OrderLines.Count == 0)
+            {
+                DisplayAlert("Error", "Add Items to save.", "OK");
+                return false;
+            }
+
+            return true;
+        }
+
         private void SetControlVisibility(Enumerations.OperationType operationType)
         {
             switch (operationType)
@@ -165,7 +178,7 @@ namespace InventoryOrderManger.Views
                     //this.description.IsVisible = true;
                     //this.purchasePrice.IsVisible = true;
                     //this.stockQty.IsVisible = true;
-                    //this.btnClear.IsVisible = false;
+                    this.btnClear.IsVisible = false;
                     this.Title = "Update Order";
                     break;
                 default:

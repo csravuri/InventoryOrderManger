@@ -25,15 +25,16 @@ namespace InventoryOrderManger.Common
                     SequenceType = sequenceType,
                     Count = 1
                 };
+
+                await dbConnection.InsertRecord(sequence);
             }
             else
             {
                 sequence.Count++;
-            }
+                await dbConnection.UpdateRecord(sequence);
+            }            
 
-            await dbConnection.UpdateRecord(sequence);
-
-            return $"{sequence.SequenceType}-{DateTime.Now:yyyy-MM-dd}-{sequence.Count}";
+            return $"{sequence.SequenceType}-{sequence.Count}({DateTime.Now:dd/MM/yyyy})";
 
         }
     }

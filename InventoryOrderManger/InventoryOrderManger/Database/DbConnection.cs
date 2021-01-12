@@ -13,15 +13,16 @@ namespace InventoryOrderManger.Database
     {
         private SQLiteAsyncConnection _connection;
         private static DbConnection _dbConnection;
+        private string _dbPath;
         private DbConnection()
         {
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Database");
 
             Utils.MakeSureDirectoryExists(folderPath);
 
-            string dbPath = Path.Combine(folderPath, "InventoryOrderMangerDB.db3");
+            _dbPath = Path.Combine(folderPath, "InventoryOrderMangerDB.db3");
 
-            _connection = new SQLiteAsyncConnection(dbPath);
+            _connection = new SQLiteAsyncConnection(_dbPath);
 
             CreateTable();
 
@@ -47,11 +48,13 @@ namespace InventoryOrderManger.Database
 
         public async Task InsertRecord<E>(E item) where E : BaseModel
         {
+            item.CreatedDate = DateTime.Now;
             await _connection.InsertAsync(item);
         }
 
         public async Task UpdateRecord<E>(E item) where E : BaseModel
         {
+            item.ModifiedDate = DateTime.Now;
             await _connection.UpdateAsync(item);
         }
 
@@ -61,11 +64,13 @@ namespace InventoryOrderManger.Database
         }
         public async Task InsertRecord<E>(List<E> items) where E : BaseModel
         {
+            items.ForEach(x => x.CreatedDate = DateTime.Now);
             await _connection.InsertAllAsync(items);
         }
 
         public async Task UpdateRecord<E>(List<E> items) where E : BaseModel
         {
+            items.ForEach(x => x.ModifiedDate = DateTime.Now);
             await _connection.UpdateAllAsync(items);
         }
 
@@ -97,5 +102,9 @@ namespace InventoryOrderManger.Database
             return await _connection.Table<Sequence>().ToListAsync();
         }
 
+        public string GetDBPath()
+        {
+            return _dbPath;
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace InventoryOrderManger.Views
                 _orderHeaders = await dbConnection.GetOrderHeaders();
 
                 OrderHeaders.Clear();
-                OrderHeaders.AddRange(_orderHeaders);
+                OrderHeaders.AddRange(_orderHeaders.OrderByDescending(x => x.CreatedDate));
             }
             catch (SQLiteException ee)
             {
@@ -57,7 +57,7 @@ namespace InventoryOrderManger.Views
 
         private void CreateNewOrder(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new OrderPage(Enumerations.OperationType.Create));
         }
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)

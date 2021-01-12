@@ -25,25 +25,27 @@
                       ItemsSource="{Binding OrderHeaders}"
                       ItemTapped="listView_ItemTapped"
                       ItemSelected="listView_ItemSelected"
-                      SeparatorColor="Red"                  
+                      SeparatorVisibility="None"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Row='0' Grid.Column='0' Text="{Binding CustomerName, StringFormat='Customer: {0}'}"/>
-                                <Label Grid.Row='0' Grid.Column='1' Text="{Binding CreatedDate, StringFormat='Date: {0}'}"/>
-                                <Label Grid.Row='1' Grid.Column='0' Text="{Binding OrderNo, StringFormat='Order No: {0}'}"/>
-                                <Label Grid.Row='1' Grid.Column='1' Text="{Binding OrderTotalPrice, StringFormat='Total: {0}'}"/>
-                            </Grid>
+                            <Frame Margin="4" Padding="4,2,4,2" HasShadow="True" CornerRadius="4">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row='0' Grid.Column='0' Text="{Binding CustomerName, StringFormat='Name: {0}'}" FontSize="16" TextColor="#146aff"/>
+                                    <Label Grid.Row='0' Grid.Column='1' Text="{Binding CreatedDate, StringFormat='Date: {0:dd-MM-yyyy}'}" TextColor="#965ef7"/>
+                                    <Label Grid.Row='1' Grid.Column='0' Text="{Binding OrderNo, StringFormat='Order #: {0}'}"/>
+                                    <Label Grid.Row='1' Grid.Column='1' Text="{Binding OrderTotalPrice, StringFormat='Total: {0}'}" TextColor="#00b818"/>
+                                </Grid>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

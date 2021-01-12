@@ -29,7 +29,7 @@ namespace InventoryOrderManger.Views
             {
                 var itemDB = await dbConnection.GetItems();
 
-                _itemsFromDB = new ObservableCollection<Item>(itemDB);
+                _itemsFromDB = new ObservableCollection<Item>(itemDB.OrderByDescending(x => x.CreatedDate));
                 this.listView.ItemsSource = _itemsFromDB;
             }
             catch (SQLiteException ee)

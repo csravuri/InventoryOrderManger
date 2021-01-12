@@ -37,12 +37,12 @@
                                     <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="0.75*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Text="Name" VerticalOptions="End" />
-                                <Label Grid.Column="1" Text="Qty" VerticalOptions="End" />
-                                <Label Grid.Column="2" Text="Price" VerticalOptions="End" />
-                                <Label Grid.Column="3" Text="Total" VerticalOptions="End" />
+                                <Label Grid.Column="0" Text="Name" VerticalOptions="End" TextColor="#000000" />
+                                <Label Grid.Column="1" Text="Qty" VerticalOptions="End" TextColor="#000000"/>
+                                <Label Grid.Column="2" Text="Price" VerticalOptions="End" TextColor="#000000"/>
+                                <Label Grid.Column="3" Text="Total" VerticalOptions="End" TextColor="#000000"/>
                             </Grid>
-                            <StackLayout Padding="1" BackgroundColor="#000000"/>
+                            <StackLayout Padding="1" BackgroundColor="#AAAAAA"/>
                         </StackLayout>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -63,9 +63,9 @@
                                         <StackLayout  Grid.Column="1" Padding="1" BackgroundColor="#d9d9d9"/>
                                         <views:QuantityView Grid.Column="2" QuantityText="{Binding ItemOrderQty}" ValueChanged="OnQuantityValueChange" CommandParameter="{Binding .}"/>
                                         <StackLayout Grid.Column="3" Padding="1" BackgroundColor="#d9d9d9"/>
-                                        <Label Grid.Column="4" Text="{Binding ItemSellPrice}"/>
+                                        <Entry Grid.Column="4" Text="{Binding ItemSellPrice}" />
                                         <StackLayout Grid.Column="5" Padding="1" BackgroundColor="#d9d9d9"/>
-                                        <Label Grid.Column="6" Text="{Binding ItemTotalPrice}"/>
+                                        <Label Grid.Column="6" Text="{Binding ItemTotalPrice}" VerticalOptions="Center"/>
                                     </Grid>
                                     <StackLayout Padding="1" BackgroundColor="#d9d9d9"/>
                                 </StackLayout>
