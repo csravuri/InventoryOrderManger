@@ -37,6 +37,7 @@ namespace InventoryOrderManger.Views
                 Items.Clear();
                 Items.AddRange(itemFromDB);
 
+                Items.Where(x => _selectedItems.Select(y => y.ItemID).Contains(x.ItemID)).ToList().ForEach(z => z.IsSelected = true);
             }
             catch (SQLiteException ee)
             {
@@ -48,8 +49,6 @@ namespace InventoryOrderManger.Views
         {
             base.OnAppearing();
             LoadItemsFromDB();
-
-            Items.Where(x => _selectedItems.Select(y => y.ItemID).Contains(x.ItemID)).ToList().ForEach(z => z.IsSelected = true);
         }
 
         protected override void OnDisappearing()
@@ -124,27 +123,6 @@ namespace InventoryOrderManger.Views
             Item item = addButton.CommandParameter as Item;
 
             item.IsSelected = !item.IsSelected;
-
-            //if (addButton.Text.Equals("+"))
-            //{
-            //    //addButton.Text = "-";
-            //    //addButton.TextColor = Color.Red;
-
-            //    if (!selectedItems.Contains(item))
-            //    {
-            //        selectedItems.Add(item);
-            //    }
-            //}
-            //else if(addButton.Text.Equals("-"))
-            //{
-            //    //addButton.Text = "+";
-            //    //addButton.TextColor = Color.Green;
-
-            //    if (selectedItems.Contains(item))
-            //    {
-            //        selectedItems.Remove(item);
-            //    }                
-            //}
         }
     }
 

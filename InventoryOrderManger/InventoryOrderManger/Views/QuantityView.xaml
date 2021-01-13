@@ -7,16 +7,21 @@
              x:Class="InventoryOrderManger.Views.QuantityView"
              x:Name="this">
     <ContentView.Content>
-        <StackLayout Orientation="Horizontal" Spacing="0">
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="35*"/>
+            </Grid.ColumnDefinitions>
             <Button Text="-"
-                    WidthRequest="35" 
+                    Grid.Column="0"
                     BackgroundColor="#f76f6f"
                     FontSize="20"
                     BorderColor="Transparent" 
                     Clicked="Minus_Clicked"/>   
             
             <Entry x:Name="TextEntry" 
-                   WidthRequest="40" 
+                   Grid.Column="1"
                    Text="{Binding QuantityText, Source={x:Reference this}}" 
                    Margin="0" 
                    Keyboard="Numeric" 
@@ -24,10 +29,10 @@
                    Unfocused="TextEntry_Unfocused"
                    HorizontalTextAlignment="Center"/>
             <Button Text="+" 
-                    WidthRequest="35" 
+                    Grid.Column="2"
                     FontSize="20"
                     BackgroundColor="#a1ffba"
                     Clicked="Plus_Clicked"/>
-        </StackLayout>
+        </Grid>
     </ContentView.Content>
 </ContentView>
