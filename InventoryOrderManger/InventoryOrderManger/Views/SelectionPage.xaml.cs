@@ -71,6 +71,9 @@ namespace InventoryOrderManger.Views
             {
                 FileData file = await CrossFilePicker.Current.PickFile();
 
+                if (file == null)
+                    return;
+
                 string filePath = file.FilePath;
                 
                 await dbManage.ImportDbData(filePath);                

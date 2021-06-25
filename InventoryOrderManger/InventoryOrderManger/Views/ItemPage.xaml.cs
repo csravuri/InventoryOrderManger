@@ -156,7 +156,7 @@ namespace InventoryOrderManger.Views
 
         private void ClearControls()
         {
-            _item = null;
+            _item = new Item();
             this.itemImage.Source = Utils.GetDefaultImage();
             this.itemName.Text = "";
             this.sellPrice.Text = null;
