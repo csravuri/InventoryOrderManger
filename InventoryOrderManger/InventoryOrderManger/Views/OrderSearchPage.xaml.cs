@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
@@ -20,6 +18,7 @@ namespace InventoryOrderManger.Views
         private DbConnection dbConnection = DbConnection.GetDbConnection();
         public ObservableCollection<OrderHeader> OrderHeaders { get; set; }
         private List<OrderHeader> _orderHeaders;
+
         public OrderSearchPage()
         {
             InitializeComponent();
@@ -47,7 +46,6 @@ namespace InventoryOrderManger.Views
             {
                 await DisplayAlert("Try restarting App", $"Somthing went wrong. {ee.Message}", "OK");
             }
-
         }
 
         private void OnSearch(object sender, EventArgs e)
@@ -76,7 +74,7 @@ namespace InventoryOrderManger.Views
             if (!string.IsNullOrWhiteSpace(text) && _orderHeaders != null)
             {
                 OrderHeaders.Clear();
-                OrderHeaders.AddRange(_orderHeaders.Where(x => x.CustomerName.ToLower().Contains(text.ToLower())));
+                OrderHeaders.AddRange(_orderHeaders.Where(x => (x.CustomerName ?? string.Empty).ToLower().Contains(text.ToLower())));
             }
             else
             {

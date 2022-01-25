@@ -1,11 +1,11 @@
-﻿using InventoryOrderManger.Common;
-using InventoryOrderManger.Database;
-using InventoryOrderManger.Models;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using InventoryOrderManger.Common;
+using InventoryOrderManger.Database;
+using InventoryOrderManger.Models;
+using SQLite;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -96,7 +96,7 @@ namespace InventoryOrderManger.Views
         {
             if (!string.IsNullOrWhiteSpace(text) && Items != null)
             {
-                this.listView.ItemsSource = Items.Where(x => x.ItemName.ToLower().Contains(text.ToLower()));
+                this.listView.ItemsSource = Items.Where(x => text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Any(t => x.ItemName.ToLower().Contains(t.ToLower())));
             }
             else
             {
