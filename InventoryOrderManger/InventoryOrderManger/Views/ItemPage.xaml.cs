@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InventoryOrderManger.Common;
+﻿using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,8 +12,10 @@ namespace InventoryOrderManger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemPage : ContentPage
     {
-        private Item _item = null;
+        private readonly Enumerations.OperationType operationType;
+        private Item item;
         private DbConnection dbConnection = DbConnection.GetDbConnection();
+
         public ItemPage()
         {
             InitializeComponent();
@@ -25,14 +23,10 @@ namespace InventoryOrderManger.Views
 
         public ItemPage(Enumerations.OperationType operationType, Item item = null) : this()
         {
-            _item = item;
-            SetPageData(_item);
+            this.operationType = operationType;
+            this.item = item ?? new Item();
+            SetPageData();
             SetControlVisibility(operationType);
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
         }
 
         private void SetControlVisibility(Enumerations.OperationType operationType)
@@ -40,29 +34,22 @@ namespace InventoryOrderManger.Views
             switch (operationType)
             {
                 case Enumerations.OperationType.Create:
-                    this.itemImage.IsVisible = true;
-                    this.description.IsVisible = true;
-                    this.purchasePrice.IsVisible = true;
-                    this.stockQty.IsVisible = true;
-                    this.btnClear.IsVisible = true;
                     this.Title = "Create Item";
                     break;
+
                 case Enumerations.OperationType.Update:
-                    this.itemImage.IsVisible = true;
-                    this.description.IsVisible = true;
-                    this.purchasePrice.IsVisible = true;
-                    this.stockQty.IsVisible = true;
                     this.btnClear.IsVisible = false;
                     this.Title = "Update Item";
                     break;
+
                 case Enumerations.OperationType.ExpressCreate:
                     this.itemImage.IsVisible = false;
                     this.description.IsVisible = false;
                     this.purchasePrice.IsVisible = false;
                     this.stockQty.IsVisible = false;
-                    this.btnClear.IsVisible = true;
                     this.Title = "Express Create Item";
                     break;
+
                 default:
                     break;
             }
@@ -91,12 +78,8 @@ namespace InventoryOrderManger.Views
                 if (file == null)
                     return;
 
-                _item.ImagePath = file.Path;
-                this.itemImage.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    return stream;
-                });
+                item.ImagePath = file.Path;
+                this.itemImage.Source = ImageSource.FromFile(file.Path);
             }
             catch (Exception ex)
             {
@@ -113,18 +96,18 @@ namespace InventoryOrderManger.Views
         {
             if (IsFormValid())
             {
-                _item = GetPageData();
+                GetPageData(item);
 
-                if (_item.ItemID != 0)
+                if (item.ID != Guid.Empty)
                 {
-                    await dbConnection.UpdateRecord(_item);
-                    await DisplayAlert("Success", $"{_item.ItemName} updated.", "OK");
+                    await dbConnection.UpdateRecord(item);
+                    await DisplayAlert("Success", $"{item.ItemName} updated.", "OK");
                     await Navigation.PopAsync();
                 }
                 else
                 {
-                    await dbConnection.InsertRecord(_item);
-                    await DisplayAlert("Success", $"{_item.ItemName} created.", "OK");
+                    await dbConnection.InsertRecord(item);
+                    await DisplayAlert("Success", $"{item.ItemName} created.", "OK");
                 }
 
                 ClearControls();
@@ -144,7 +127,7 @@ namespace InventoryOrderManger.Views
                 DisplayAlert("Error", $"{this.sellPrice.Placeholder} should be number!", "OK");
                 return false;
             }
-            
+
             if (!Utils.IsNumber(this.stockQty.Text))
             {
                 DisplayAlert("Error", $"{this.stockQty.Placeholder} should be number!", "OK");
@@ -156,7 +139,7 @@ namespace InventoryOrderManger.Views
 
         private void ClearControls()
         {
-            _item = new Item();
+            item = new Item();
             this.itemImage.Source = Utils.GetDefaultImage();
             this.itemName.Text = "";
             this.sellPrice.Text = null;
@@ -172,37 +155,24 @@ namespace InventoryOrderManger.Views
             Navigation.PopAsync();
         }
 
-        private void SetPageData(Item item)
+        private void SetPageData()
         {
-            if(_item != null)
-            {
-                this.itemName.Text = _item.ItemName;
-                this.sellPrice.Text = Utils.ToString(_item.SellPrice);
-                this.description.Text = Utils.ToString(_item.Description);
-                this.purchasePrice.Text = Utils.ToString(_item.PurchasePrice);
-                this.stockQty.Text = Utils.ToString(_item.StockQty);                
-            }
-            else
-            {
-                _item = new Item();
-            }
+            this.itemName.Text = item.ItemName;
+            this.sellPrice.Text = Utils.ToString(item.SellPrice);
+            this.description.Text = Utils.ToString(item.Description);
+            this.purchasePrice.Text = Utils.ToString(item.PurchasePrice);
+            this.stockQty.Text = Utils.ToString(item.StockQty);
 
-            this.itemImage.Source = (_item == null || string.IsNullOrWhiteSpace(_item.ImagePath)) ? Utils.GetDefaultImage() : ImageSource.FromFile(_item.ImagePath);
+            this.itemImage.Source = string.IsNullOrWhiteSpace(item.ImagePath) ? Utils.GetDefaultImage() : ImageSource.FromFile(item.ImagePath);
         }
 
-        private Item GetPageData()
+        private void GetPageData(Item item)
         {
-            _item = _item ?? new Item();
-
-            _item.ItemName = this.itemName.Text;
-            _item.SellPrice = Utils.ToDecimal(this.sellPrice.Text);
-            _item.Description = Utils.ToString(this.description.Text);
-            _item.PurchasePrice = Utils.ToDecimal(this.purchasePrice.Text);
-            _item.StockQty = Utils.ToDecimal(this.stockQty.Text);           
-
-            return _item;
+            item.ItemName = this.itemName.Text;
+            item.SellPrice = Utils.ToDecimal(this.sellPrice.Text);
+            item.Description = Utils.ToString(this.description.Text);
+            item.PurchasePrice = Utils.ToDecimal(this.purchasePrice.Text);
+            item.StockQty = Utils.ToDecimal(this.stockQty.Text);
         }
-
-        
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Models;
@@ -13,8 +12,9 @@ namespace InventoryOrderManger.Database
     public class DbManage
     {
         private DbConnection dbConnection = DbConnection.GetDbConnection();
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns>Path of file which contains data</returns>
         public async Task<string> ExportDbData()
@@ -33,7 +33,7 @@ namespace InventoryOrderManger.Database
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="filePath">Path of the file which contains data</param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace InventoryOrderManger.Database
             List<OrderHeader> orderHeaders = await dbConnection.GetOrderHeaders();
             List<OrderLine> orderLines = await dbConnection.GetOrderLines();
             List<Sequence> sequences = await dbConnection.GetSequences();
-            
+
             JObject jsonObject = new JObject();
 
             jsonObject.Add(nameof(Item), JToken.FromObject(items));
@@ -70,25 +70,10 @@ namespace InventoryOrderManger.Database
             List<OrderLine> orderLines = jsonObject[nameof(OrderLine)].ToObject<List<OrderLine>>();
             List<Sequence> sequences = jsonObject[nameof(Sequence)].ToObject<List<Sequence>>();
 
-            items.ForEach(x => x.ItemID = 0);
             await dbConnection.InsertRecord(items);
-
-            foreach(OrderHeader order in orderHeaders)
-            {
-                List<OrderLine> lines = orderLines.FindAll(x => x.OrderID == order.OrderID);
-                order.OrderID = 0;
-
-                await dbConnection.InsertRecord(order);
-
-                lines.ForEach(x => x.OrderID = order.OrderID);
-                lines.ForEach(x => x.OrderLineID = 0);
-
-                await dbConnection.InsertRecord(lines);
-            }
-
-            sequences.ForEach(x => x.SequenceID = 0);
+            await dbConnection.InsertRecord(orderHeaders);
+            await dbConnection.InsertRecord(orderLines);
             await dbConnection.InsertRecord(sequences);
         }
-
     }
 }

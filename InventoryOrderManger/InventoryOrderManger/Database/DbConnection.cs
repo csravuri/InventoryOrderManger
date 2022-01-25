@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Models;
@@ -14,6 +13,7 @@ namespace InventoryOrderManger.Database
         private SQLiteAsyncConnection _connection;
         private static DbConnection _dbConnection;
         private string _dbPath;
+
         private DbConnection()
         {
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Database");
@@ -25,12 +25,11 @@ namespace InventoryOrderManger.Database
             _connection = new SQLiteAsyncConnection(_dbPath);
 
             CreateTable();
-
         }
 
         public static DbConnection GetDbConnection()
         {
-            if(_dbConnection == null)
+            if (_dbConnection == null)
             {
                 _dbConnection = new DbConnection();
             }
@@ -48,7 +47,7 @@ namespace InventoryOrderManger.Database
 
         public async Task InsertRecord<E>(E item) where E : BaseModel
         {
-            item.CreatedDate = DateTime.Now;
+            SetDefaults(item);
             await _connection.InsertAsync(item);
         }
 
@@ -62,9 +61,10 @@ namespace InventoryOrderManger.Database
         {
             await _connection.DeleteAsync(item);
         }
+
         public async Task InsertRecord<E>(List<E> items) where E : BaseModel
         {
-            items.ForEach(x => x.CreatedDate = DateTime.Now);
+            items.ForEach(x => SetDefaults(x));
             await _connection.InsertAllAsync(items);
         }
 
@@ -82,11 +82,17 @@ namespace InventoryOrderManger.Database
             }
         }
 
+        private void SetDefaults(BaseModel item)
+        {
+            item.CreatedDate = DateTime.Now;
+            item.ID = Guid.NewGuid();
+        }
 
         public async Task<List<Item>> GetItems()
         {
             return await _connection.Table<Item>().ToListAsync();
         }
+
         public async Task<List<OrderHeader>> GetOrderHeaders()
         {
             return await _connection.Table<OrderHeader>().ToListAsync();

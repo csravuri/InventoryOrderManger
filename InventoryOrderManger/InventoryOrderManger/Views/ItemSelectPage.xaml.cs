@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InventoryOrderManger.Common;
+﻿using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
 using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +17,9 @@ namespace InventoryOrderManger.Views
         public ObservableCollection<Item> Items { get; set; }
         private DbConnection dbConnection = DbConnection.GetDbConnection();
         private List<Item> _selectedItems;
+
         public event EventHandler<ItemSelectedEventArgs> ItemsSelected;
+
         public ItemSelectPage()
         {
             InitializeComponent();
@@ -37,7 +37,7 @@ namespace InventoryOrderManger.Views
                 Items.Clear();
                 Items.AddRange(itemFromDB);
 
-                Items.Where(x => _selectedItems.Select(y => y.ItemID).Contains(x.ItemID)).ToList().ForEach(z => z.IsSelected = true);
+                Items.Where(x => _selectedItems.Select(y => y.ID).Contains(x.ID)).ToList().ForEach(z => z.IsSelected = true);
             }
             catch (SQLiteException ee)
             {

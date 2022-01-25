@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SQLite;
+using System;
 using System.ComponentModel;
-using System.Text;
 
 namespace InventoryOrderManger.Models
 {
     public class BaseModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        [PrimaryKey]
+        public Guid ID { get; set; } = Guid.Empty;
+
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         private bool _isSelected { get; set; }
@@ -21,9 +24,13 @@ namespace InventoryOrderManger.Models
             set
             {
                 _isSelected = value;
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                OnPropertyChanged(this, new PropertyChangedEventArgs(nameof(IsSelected)));
             }
+        }
+
+        protected void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
         }
     }
 }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using InventoryOrderManger.Common;
+using InventoryOrderManger.Database;
+using InventoryOrderManger.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InventoryOrderManger.Common;
-using InventoryOrderManger.Database;
-using InventoryOrderManger.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,10 +14,11 @@ namespace InventoryOrderManger.Views
     public partial class OrderPage : ContentPage, INotifyPropertyChanged
     {
         public new event PropertyChangedEventHandler PropertyChanged;
-        
+
         public ObservableCollection<OrderLine> OrderLines { get; set; }
         private OrderHeader _orderHeader;
         private bool areLinesLoaded = false;
+
         public OrderHeader OrderHeader
         {
             get
@@ -36,6 +34,8 @@ namespace InventoryOrderManger.Views
         }
 
         private DbConnection dbConnection = DbConnection.GetDbConnection();
+        private readonly Enumerations.OperationType operationType;
+
         public OrderPage()
         {
             InitializeComponent();
@@ -53,18 +53,19 @@ namespace InventoryOrderManger.Views
             }
 
             SetControlVisibility(operationType);
+            this.operationType = operationType;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (OrderHeader.OrderID != 0 && !areLinesLoaded)
+            if (OrderHeader.ID != Guid.Empty && !areLinesLoaded)
             {
                 areLinesLoaded = true;
                 var lines = await dbConnection.GetOrderLines();
                 OrderLines.Clear();
-                OrderLines.AddRange(lines.Where(x => x.OrderID == OrderHeader.OrderID));
+                OrderLines.AddRange(lines.Where(x => x.OrderID == OrderHeader.ID));
             }
         }
 
@@ -84,7 +85,7 @@ namespace InventoryOrderManger.Views
         {
             OrderLines.Clear();
             OrderHeader = new OrderHeader();
-        }      
+        }
 
         private void OnAddItem(object sender, EventArgs e)
         {
@@ -96,11 +97,11 @@ namespace InventoryOrderManger.Views
 
         private void OnItemsSelected(object sender, ItemSelectedEventArgs e)
         {
-            foreach(Item item in e.SelectedItems)
+            foreach (Item item in e.SelectedItems)
             {
-                OrderLines.Add(new OrderLine() 
+                OrderLines.Add(new OrderLine()
                 {
-                    ItemID = item.ItemID,
+                    ItemID = item.ID,
                     ItemName = item.ItemName,
                     ItemSellPrice = item.SellPrice,
                     ItemOrderQty = 1,
@@ -118,17 +119,17 @@ namespace InventoryOrderManger.Views
                 return;
             }
 
-            if (OrderHeader.OrderID != 0)
+            if (OrderHeader.ID != Guid.Empty)
             {
                 await dbConnection.UpdateRecord(OrderHeader);
 
                 foreach (OrderLine line in OrderLines)
                 {
-                    line.OrderID = OrderHeader.OrderID;
+                    line.OrderID = OrderHeader.ID;
                 }
 
-                await dbConnection.UpdateRecord(OrderLines.Where(x => x.OrderLineID != 0).ToList());
-                await dbConnection.InsertRecord(OrderLines.Where(x => x.OrderLineID == 0).ToList());
+                await dbConnection.UpdateRecord(OrderLines.Where(x => x.ID != Guid.Empty).ToList());
+                await dbConnection.InsertRecord(OrderLines.Where(x => x.ID == Guid.Empty).ToList());
 
                 await DisplayAlert("Success", $"{OrderHeader.OrderNo} updated.", "OK");
                 await Navigation.PopAsync();
@@ -140,7 +141,7 @@ namespace InventoryOrderManger.Views
 
                 foreach (OrderLine line in OrderLines)
                 {
-                    line.OrderID = OrderHeader.OrderID;
+                    line.OrderID = OrderHeader.ID;
                 }
 
                 await dbConnection.InsertRecord(OrderLines.ToList());
@@ -166,21 +167,14 @@ namespace InventoryOrderManger.Views
             switch (operationType)
             {
                 case Enumerations.OperationType.Create:
-                    //this.itemImage.IsVisible = true;
-                    //this.description.IsVisible = true;
-                    //this.purchasePrice.IsVisible = true;
-                    //this.stockQty.IsVisible = true;
-                    //this.btnClear.IsVisible = true;
                     this.Title = "Create Order";
                     break;
+
                 case Enumerations.OperationType.Update:
-                    //this.itemImage.IsVisible = true;
-                    //this.description.IsVisible = true;
-                    //this.purchasePrice.IsVisible = true;
-                    //this.stockQty.IsVisible = true;
                     this.btnClear.IsVisible = false;
                     this.Title = "Update Order";
                     break;
+
                 default:
                     break;
             }

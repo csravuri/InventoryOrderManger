@@ -1,22 +1,19 @@
-﻿using System.ComponentModel;
-using SQLite;
+﻿using System;
+using System.ComponentModel;
 
 namespace InventoryOrderManger.Models
 {
     public class OrderLine : BaseModel, INotifyPropertyChanged
     {
-        public new event PropertyChangedEventHandler PropertyChanged;    
-        public int OrderID { get; set; }
-
-        [PrimaryKey, AutoIncrement]
-        public int OrderLineID { get; set; }
-        public int ItemID { get; set; }
+        public Guid OrderID { get; set; }
+        public Guid ItemID { get; set; }
         public string ItemName { get; set; }
         public decimal ItemSellPrice { get; set; }
         public decimal ItemOrderQty { get; set; }
 
         private decimal _itemTotalPrice;
-        public decimal ItemTotalPrice 
+
+        public decimal ItemTotalPrice
         {
             get
             {
@@ -26,7 +23,7 @@ namespace InventoryOrderManger.Models
             {
                 _itemTotalPrice = value;
 
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemTotalPrice)));
+                OnPropertyChanged(this, new PropertyChangedEventArgs(nameof(ItemTotalPrice)));
             }
         }
     }
