@@ -1,7 +1,5 @@
-﻿using System;
-using InventoryOrderManger.Views;
+﻿using InventoryOrderManger.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace InventoryOrderManger
 {
@@ -16,6 +14,8 @@ namespace InventoryOrderManger
                 BarBackgroundColor = Color.FromHex("#c863ff")
             };
         }
+
+        public string MyFolder { get; set; }
 
         protected override void OnStart()
         {

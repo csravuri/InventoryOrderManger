@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System.IO;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -17,7 +18,22 @@ namespace InventoryOrderManger.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App()
+            {
+                MyFolder = GetMyFolder()
+            });
+        }
+
+        private string GetMyFolder()
+        {
+            var picturesFolder = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures);
+            var ioManagerFolder = Path.Combine(picturesFolder.AbsolutePath, "IO Manager");
+            if (!Directory.Exists(ioManagerFolder))
+            {
+                Directory.CreateDirectory(ioManagerFolder);
+            }
+
+            return ioManagerFolder;
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

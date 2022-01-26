@@ -85,8 +85,10 @@ namespace InventoryOrderManger.Views
 
         private string SaveImage(string cacheFilePath)
         {
-            // save image and return the new path
-            return cacheFilePath;
+            var app = Application.Current as App;
+            var finalPath = Path.Combine(app.MyFolder, Guid.NewGuid().ToString() + Path.GetExtension(cacheFilePath));
+            File.Move(cacheFilePath, finalPath);
+            return finalPath;
         }
 
         private void OnClear(object sender, EventArgs e)
