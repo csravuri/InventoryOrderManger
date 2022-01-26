@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InventoryOrderManger.Common;
-using InventoryOrderManger.Controllers;
 using InventoryOrderManger.Database;
-using InventoryOrderManger.Models;
-using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace InventoryOrderManger.Views
@@ -22,9 +12,10 @@ namespace InventoryOrderManger.Views
     {
         private DbConnection dbConnection = DbConnection.GetDbConnection();
         private DbManage dbManage = new DbManage();
+
         public SelectionPage()
         {
-            InitializeComponent();          
+            InitializeComponent();
         }
 
         private void OnCreateItem_Clicked(object sender, EventArgs e)
@@ -41,7 +32,7 @@ namespace InventoryOrderManger.Views
         {
             Navigation.PushAsync(new OrderPage(Enumerations.OperationType.Create));
         }
-        
+
         private void OnViewOrder_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new OrderSearchPage());
@@ -59,24 +50,23 @@ namespace InventoryOrderManger.Views
                     File = new ShareFile(filePath),
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
         }
 
         private async void OnRestore_Clicked(object sender, EventArgs e)
-{
+        {
             try
             {
-                FileData file = await CrossFilePicker.Current.PickFile();
-
+                var file = await FilePicker.PickAsync();
                 if (file == null)
                     return;
 
-                string filePath = file.FilePath;
-                
-                await dbManage.ImportDbData(filePath);                
+                string filePath = file.FullPath;
+
+                await dbManage.ImportDbData(filePath);
             }
             catch (Exception ex)
             {
