@@ -4,36 +4,56 @@
              x:Class="InventoryOrderManger.Views.SelectionPage">
     <NavigationPage.TitleView>
         <StackLayout>
-            <Label Text="IO Manager" TextColor="#FFFFFF" FontSize="18"/>
-            <Label Text="Inventory-Order Manager" TextColor="#00FF99"/>
+            <Label Text="IO Manager 2" TextColor="#FFFFFF" FontSize="18"/>
+            <Label Text="Inventory-Order Manager" TextColor="#000"/>
         </StackLayout>
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout>
-                <Label Text="Item" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
-                <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
-                    <Button Text="Create" Clicked="OnCreateItem_Clicked" TextColor="#00b558" BorderColor="Transparent" BackgroundColor="Transparent"/>
-                    <Button Text="View" Clicked="OnViewItem_Clicked" TextColor="#0ec4a9" BorderColor="Transparent" BackgroundColor="Transparent"/>
-                </StackLayout>                
-            </StackLayout>
-            <StackLayout Padding="1" BackgroundColor="Brown"/>
-            <StackLayout>
-                <Label Text="Order" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
-                <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
-                    <Button Text="Create" Clicked="OnCreateOrder_Clicked" TextColor="#00b558" BorderColor="Transparent" BackgroundColor="Transparent"/>
-                    <Button Text="View" Clicked="OnViewOrder_Clicked" TextColor="#0ec4a9" BorderColor="Transparent" BackgroundColor="Transparent"/>
+            <Frame Padding="5" 
+                   Margin="10"
+                   HasShadow="True"
+                   BackgroundColor="#dcb0f5"
+                   BorderColor="#8f8f8f"
+                   CornerRadius="25">
+                <StackLayout>
+                    <Label Text="Item" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
+                    <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
+                        <Button Text="Create" Clicked="OnCreateItem_Clicked" TextColor="#000" BackgroundColor="#6ff292" CornerRadius="25"/>
+                        <Button Text="View" Clicked="OnViewItem_Clicked" TextColor="#000" BackgroundColor="#0ec4a9"  CornerRadius="25"/>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-            <StackLayout Padding="1" BackgroundColor="Brown"/>
-            <StackLayout>
-                <Label Text="Config" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
-                <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
-                    <Button Text="Backup" Clicked="OnBackup_Clicked" TextColor="#00b558" BorderColor="Transparent" BackgroundColor="Transparent"/>
-                    <Button Text="Restore" Clicked="OnRestore_Clicked" TextColor="#0ec4a9" BorderColor="Transparent" BackgroundColor="Transparent"/>
+            </Frame>
+
+            <Frame Padding="5" 
+                   Margin="10"
+                   HasShadow="True"
+                   BackgroundColor="#dcb0f5"
+                   BorderColor="#8f8f8f"
+                   CornerRadius="25">
+                <StackLayout>
+                    <Label Text="Order" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
+                    <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
+                        <Button Text="Create" Clicked="OnCreateOrder_Clicked" TextColor="#000" BackgroundColor="#6ff292" CornerRadius="25"/>
+                        <Button Text="View" Clicked="OnViewOrder_Clicked" TextColor="#000" BackgroundColor="#0ec4a9"  CornerRadius="25"/>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-            <StackLayout Padding="1" BackgroundColor="Brown"/>
+            </Frame>
+
+            <Frame Padding="5" 
+                   Margin="10"
+                   HasShadow="True"
+                   BackgroundColor="#dcb0f5"
+                   BorderColor="#8f8f8f"
+                   CornerRadius="25">
+                <StackLayout>
+                    <Label Text="Config" FontSize="30" TextColor="#000000" HorizontalOptions="Center"/>
+                    <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Spacing="50" Orientation="Horizontal">
+                        <Button Text="Backup" Clicked="OnBackup_Clicked" TextColor="#000" BackgroundColor="#6ff292" CornerRadius="25"/>
+                        <Button Text="Restore" Clicked="OnRestore_Clicked" TextColor="#000" BackgroundColor="#0ec4a9"  CornerRadius="25"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

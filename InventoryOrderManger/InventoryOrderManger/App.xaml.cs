@@ -11,7 +11,10 @@ namespace InventoryOrderManger
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new SelectionPage());
+            MainPage = new NavigationPage(new SelectionPage())
+            {
+                BarBackgroundColor = Color.FromHex("#c863ff")
+            };
         }
 
         protected override void OnStart()

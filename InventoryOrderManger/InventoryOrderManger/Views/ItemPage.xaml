@@ -8,14 +8,18 @@
              Title="Item">
     <ScrollView>
         <StackLayout VerticalOptions="FillAndExpand">
-            <Image BackgroundColor="#DB9600"
+            <Frame Padding="0"
+                   Margin="5"
+                   CornerRadius="30">
+                <Image BackgroundColor="#ebd5f7" 
                    x:Name="itemImage"
                    HeightRequest="250">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="CaptureImage" />
-                </Image.GestureRecognizers>
-            </Image>
-            <StackLayout>
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CaptureImage" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+            <StackLayout Margin="5,0">
                 <Entry Placeholder="Item Name" PlaceholderColor="Gray" Keyboard="Chat" x:Name="itemName" TabIndex="10" ReturnType="Next" />
                 <Entry Placeholder="Sell Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="sellPrice" TabIndex="11" ReturnType="Done" />
                 <Entry Placeholder="Description" PlaceholderColor="Gray" Keyboard="Chat" x:Name="description" TabIndex="12" ReturnType="Done" />
