@@ -1,9 +1,9 @@
-﻿using InventoryOrderManger.Common;
+﻿using System;
+using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -125,12 +125,6 @@ namespace InventoryOrderManger.Views
             if (!Utils.IsNumber(this.sellPrice.Text, false))
             {
                 DisplayAlert("Error", $"{this.sellPrice.Placeholder} should be number!", "OK");
-                return false;
-            }
-
-            if (!Utils.IsNumber(this.stockQty.Text))
-            {
-                DisplayAlert("Error", $"{this.stockQty.Placeholder} should be number!", "OK");
                 return false;
             }
 
