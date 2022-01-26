@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InventoryOrderManger.Common
+﻿namespace InventoryOrderManger.Common
 {
     public class Enumerations
     {
@@ -13,9 +9,9 @@ namespace InventoryOrderManger.Common
             ExpressCreate
         }
 
-        public enum SequenceType
+        public static class SequenceType
         {
-            SO
+            public const string SO = "SO";
         }
     }
 }

@@ -36,7 +36,7 @@
                                     <StackLayout>
                                         <Label Text="{Binding ItemName, StringFormat='Name: {0}'}" FontSize="Medium" TextColor="Blue"/>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding SellPrice, StringFormat='Price: {0:F2}'}" TextColor="Gray"/>
+                                            <Label Text="{Binding WholeSalePrice, StringFormat='Price: {0:F2}'}" TextColor="Gray"/>
                                             <Label Text="{Binding Description, StringFormat='Desc: {0}'}" TextColor="Gray"/>
                                         </StackLayout>
                                     </StackLayout>

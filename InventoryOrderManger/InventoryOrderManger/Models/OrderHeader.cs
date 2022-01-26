@@ -6,6 +6,8 @@ namespace InventoryOrderManger.Models
     {
         public string OrderNo { get; set; }
         public string CustomerName { get; set; }
+        public bool IsWholeSale { get; set; } = true;
+
         private decimal _orderTotalPrice { get; set; }
 
         public decimal OrderTotalPrice

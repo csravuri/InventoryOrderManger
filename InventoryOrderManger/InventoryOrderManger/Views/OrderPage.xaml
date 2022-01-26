@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:views="clr-namespace:InventoryOrderManger.Views"
              mc:Ignorable="d"
              x:Class="InventoryOrderManger.Views.OrderPage">
@@ -10,96 +10,97 @@
         <StackLayout>
             <StackLayout Padding="5,0">
                 <StackLayout Orientation="Horizontal">
-                    <Entry Placeholder="Customer Name"                             
-                       PlaceholderColor="Gray" 
+                    <Entry Placeholder="Customer Name"
+                       PlaceholderColor="Gray"
                        HorizontalOptions="FillAndExpand"
                        Keyboard="Chat"
-                       Text="{Binding Path=OrderHeader.CustomerName}"/>
+                       Text="{Binding Path=OrderHeader.CustomerName}" />
                     <Button Text="Add Item"
-                        BackgroundColor="Transparent" 
-                        BorderColor="Transparent" TextColor="Green" 
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent" TextColor="Green"
                         HorizontalOptions="End"
-                        Clicked="OnAddItem"/>
+                        Clicked="OnAddItem" />
                 </StackLayout>
-                <ListView 
+                <StackLayout Orientation="Horizontal">
+                    <CheckBox CheckedChanged="WholeSaleCheckChanged" x:Name="IsWholeSale" Color="#1277fc" />
+                    <Label Text="Is Whole Sale?" VerticalTextAlignment="Center"/>
+                </StackLayout>
+                <ListView
                     ItemsSource="{Binding OrderLines}"
-                    HasUnevenRows="True" 
-                    VerticalOptions="Start" 
-                    SeparatorVisibility="None" 
+                    HasUnevenRows="True"
+                    VerticalOptions="Start"
+                    SeparatorVisibility="None"
                     CachingStrategy="RecycleElement"
                     ItemSelected="ListView_ItemSelected">
                     <ListView.Header>
                         <StackLayout>
                             <Grid ColumnSpacing="2" RowSpacing="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2.5*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="0.75*"/>
-                                    <ColumnDefinition Width="0.75*"/>
+                                    <ColumnDefinition Width="2.5*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="0.75*" />
+                                    <ColumnDefinition Width="0.75*" />
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="Name" VerticalOptions="End" TextColor="#000000" />
-                                <Label Grid.Column="1" Text="Qty" VerticalOptions="End" TextColor="#000000"/>
-                                <Label Grid.Column="2" Text="Price" VerticalOptions="End" TextColor="#000000"/>
-                                <Label Grid.Column="3" Text="Total" VerticalOptions="End" TextColor="#000000"/>
+                                <Label Grid.Column="1" Text="Qty" VerticalOptions="End" TextColor="#000000" />
+                                <Label Grid.Column="2" Text="Price" VerticalOptions="End" TextColor="#000000" />
+                                <Label Grid.Column="3" Text="Total" VerticalOptions="End" TextColor="#000000" />
                             </Grid>
-                            <StackLayout Padding="1" BackgroundColor="#AAAAAA"/>
+                            <StackLayout Padding="1" BackgroundColor="#AAAAAA" />
                         </StackLayout>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>                                
+                            <ViewCell>
                                 <StackLayout>
                                     <Grid ColumnSpacing="2" RowSpacing="0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2.5*"/>
-                                            <ColumnDefinition Width="1"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1"/>
-                                            <ColumnDefinition Width="0.75*"/>
-                                            <ColumnDefinition Width="1"/>
-                                            <ColumnDefinition Width="0.75*"/>
+                                            <ColumnDefinition Width="2.5*" />
+                                            <ColumnDefinition Width="1" />
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="1" />
+                                            <ColumnDefinition Width="0.75*" />
+                                            <ColumnDefinition Width="1" />
+                                            <ColumnDefinition Width="0.75*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Text="{Binding ItemName}" VerticalOptions="Center" />
-                                        <StackLayout  Grid.Column="1" Padding="1" BackgroundColor="#d9d9d9"/>
-                                        <views:QuantityView Grid.Column="2" QuantityText="{Binding ItemOrderQty}" ValueChanged="OnQuantityValueChange" CommandParameter="{Binding .}"/>
-                                        <StackLayout Grid.Column="3" Padding="1" BackgroundColor="#d9d9d9"/>
+                                        <StackLayout  Grid.Column="1" Padding="1" BackgroundColor="#d9d9d9" />
+                                        <views:QuantityView Grid.Column="2" QuantityText="{Binding ItemOrderQty}" ValueChanged="OnQuantityValueChange" CommandParameter="{Binding .}" />
+                                        <StackLayout Grid.Column="3" Padding="1" BackgroundColor="#d9d9d9" />
                                         <Entry Grid.Column="4" Text="{Binding ItemSellPrice}" />
-                                        <StackLayout Grid.Column="5" Padding="1" BackgroundColor="#d9d9d9"/>
-                                        <Label Grid.Column="6" Text="{Binding ItemTotalPrice}" VerticalOptions="Center"/>
+                                        <StackLayout Grid.Column="5" Padding="1" BackgroundColor="#d9d9d9" />
+                                        <Label Grid.Column="6" Text="{Binding ItemTotalPrice}" VerticalOptions="Center" />
                                     </Grid>
-                                    <StackLayout Padding="1" BackgroundColor="#d9d9d9"/>
+                                    <StackLayout Padding="1" BackgroundColor="#d9d9d9" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Label Text="{Binding Path=OrderHeader.OrderTotalPrice, Mode=TwoWay , StringFormat='Final Total Price = {0:F2}'}" 
-                       HorizontalOptions="EndAndExpand" 
+                <Label Text="{Binding Path=OrderHeader.OrderTotalPrice, Mode=TwoWay , StringFormat='Final Total Price = {0:F2}'}"
+                       HorizontalOptions="EndAndExpand"
                        FontSize="17"
-                       TextColor="#1277fc"/>
+                       TextColor="#1277fc" />
             </StackLayout>
-            
-            
 
             <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
-                <Button Text="Back" 
-                        BackgroundColor="Transparent" 
-                        BorderColor="Transparent" TextColor="Red" 
+                <Button Text="Back"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent" TextColor="Red"
                         HorizontalOptions="StartAndExpand"
-                        Clicked="OnBack"/>
-                <Button Text="Clear" 
-                        BackgroundColor="Transparent" 
-                        BorderColor="Transparent" TextColor="Red" 
+                        Clicked="OnBack" />
+                <Button Text="Clear"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent" TextColor="Red"
                         HorizontalOptions="StartAndExpand"
                         Clicked="OnClear"
-                        x:Name="btnClear"/>
-                <Button Text="Save" 
-                        BackgroundColor="Transparent" 
-                        BorderColor="Transparent" 
+                        x:Name="btnClear" />
+                <Button Text="Save"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
                         TextColor="Green"
-                        Clicked="OnSave"/>
+                        Clicked="OnSave" />
             </StackLayout>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

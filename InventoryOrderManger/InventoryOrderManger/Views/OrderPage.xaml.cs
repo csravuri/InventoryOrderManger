@@ -1,10 +1,12 @@
-﻿using InventoryOrderManger.Common;
-using InventoryOrderManger.Database;
-using InventoryOrderManger.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using InventoryOrderManger.Common;
+using InventoryOrderManger.Database;
+using InventoryOrderManger.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,6 +20,7 @@ namespace InventoryOrderManger.Views
         public ObservableCollection<OrderLine> OrderLines { get; set; }
         private OrderHeader _orderHeader;
         private bool areLinesLoaded = false;
+        private List<Item> items = null;
 
         public OrderHeader OrderHeader
         {
@@ -52,6 +55,7 @@ namespace InventoryOrderManger.Views
                 OrderHeader = header;
             }
 
+            this.IsWholeSale.IsChecked = OrderHeader.IsWholeSale;
             SetControlVisibility(operationType);
             this.operationType = operationType;
         }
@@ -67,6 +71,8 @@ namespace InventoryOrderManger.Views
                 OrderLines.Clear();
                 OrderLines.AddRange(lines.Where(x => x.OrderID == OrderHeader.ID));
             }
+
+            items = null;
         }
 
         private void OnBack(object sender, EventArgs e)
@@ -102,10 +108,10 @@ namespace InventoryOrderManger.Views
                 OrderLines.Add(new OrderLine()
                 {
                     ItemID = item.ID,
-                    ItemName = item.ItemName,
-                    ItemSellPrice = item.SellPrice,
+                    ItemName = item.ItemName + $" ({item.CustomerSellingPrice})",
+                    ItemSellPrice = OrderHeader.IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice,
                     ItemOrderQty = 1,
-                    ItemTotalPrice = item.SellPrice
+                    ItemTotalPrice = OrderHeader.IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice
                 });
             }
 
@@ -206,6 +212,31 @@ namespace InventoryOrderManger.Views
         {
             ListView view = sender as ListView;
             view.SelectedItem = null;
+        }
+
+        private async void WholeSaleCheckChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (OrderHeader != null)
+            {
+                OrderHeader.IsWholeSale = e.Value;
+                await ReloadOrderLinePrices();
+            }
+        }
+
+        private async Task ReloadOrderLinePrices()
+        {
+            if (items == null)
+            {
+                items = await dbConnection.GetItems();
+            }
+
+            foreach (var line in OrderLines)
+            {
+                var item = items.FirstOrDefault(x => x.ID == line.ItemID);
+                line.ItemSellPrice = OrderHeader.IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice;
+                line.ItemTotalPrice = line.ItemSellPrice * line.ItemOrderQty;
+            }
+            CalculateOrderTotalPrice();
         }
     }
 }

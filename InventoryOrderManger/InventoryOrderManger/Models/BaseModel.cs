@@ -1,6 +1,6 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.ComponentModel;
+using SQLite;
 
 namespace InventoryOrderManger.Models
 {
@@ -12,9 +12,10 @@ namespace InventoryOrderManger.Models
         public Guid ID { get; set; } = Guid.Empty;
 
         public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         private bool _isSelected { get; set; }
 
+        [Ignore]
         public bool IsSelected
         {
             get

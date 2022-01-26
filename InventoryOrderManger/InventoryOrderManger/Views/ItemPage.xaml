@@ -11,7 +11,7 @@
             <Frame Padding="0"
                    Margin="5"
                    CornerRadius="30">
-                <Image BackgroundColor="#ebd5f7" 
+                <Image BackgroundColor="#ebd5f7"
                    x:Name="itemImage"
                    HeightRequest="250">
                     <Image.GestureRecognizers>
@@ -21,7 +21,9 @@
             </Frame>
             <StackLayout Margin="5,0">
                 <Entry Placeholder="Item Name" PlaceholderColor="Gray" Keyboard="Chat" x:Name="itemName" TabIndex="10" ReturnType="Next" />
-                <Entry Placeholder="Sell Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="sellPrice" TabIndex="11" ReturnType="Done" />
+                <Entry Placeholder="Whole Sale Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="wholeSalePrice" TabIndex="11" ReturnType="Done" />
+                <Entry Placeholder="Retail Sale Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="retailSalePrice" TabIndex="12" ReturnType="Done" />
+                <Entry Placeholder="Customer Selling Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="customerSellingPrice" TabIndex="12" ReturnType="Done" />
                 <Entry Placeholder="Description" PlaceholderColor="Gray" Keyboard="Chat" x:Name="description" TabIndex="12" ReturnType="Done" />
                 <Entry Placeholder="Purchase Price" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="purchasePrice" TabIndex="13" ReturnType="Done" />
                 <Entry Placeholder="Stock Qty" PlaceholderColor="Gray" Keyboard="Numeric" x:Name="stockQty" TabIndex="14" ReturnType="Done" />

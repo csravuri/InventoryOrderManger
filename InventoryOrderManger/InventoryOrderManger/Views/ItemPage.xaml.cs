@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
@@ -65,8 +66,8 @@ namespace InventoryOrderManger.Views
                 if (file == null)
                     return;
 
-                item.ImagePath = file.FullPath;
-                this.itemImage.Source = ImageSource.FromFile(file.FullPath);
+                item.ImagePath = SaveImage(file.FullPath);
+                this.itemImage.Source = ImageSource.FromFile(item.ImagePath);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -80,6 +81,12 @@ namespace InventoryOrderManger.Views
             {
                 await DisplayAlert("Exception", ex.Message, "OK");
             }
+        }
+
+        private string SaveImage(string cacheFilePath)
+        {
+            // save image and return the new path
+            return cacheFilePath;
         }
 
         private void OnClear(object sender, EventArgs e)
@@ -117,9 +124,9 @@ namespace InventoryOrderManger.Views
                 return false;
             }
 
-            if (!Utils.IsNumber(this.sellPrice.Text, false))
+            if (!Utils.IsNumber(this.wholeSalePrice.Text, false))
             {
-                DisplayAlert("Error", $"{this.sellPrice.Placeholder} should be number!", "OK");
+                DisplayAlert("Error", $"{this.wholeSalePrice.Placeholder} should be number!", "OK");
                 return false;
             }
 
@@ -131,7 +138,9 @@ namespace InventoryOrderManger.Views
             item = new Item();
             this.itemImage.Source = Utils.GetDefaultImage();
             this.itemName.Text = "";
-            this.sellPrice.Text = null;
+            this.wholeSalePrice.Text = null;
+            this.retailSalePrice.Text = null;
+            this.customerSellingPrice.Text = null;
             this.description.Text = null;
             this.purchasePrice.Text = null;
             this.stockQty.Text = null;
@@ -147,7 +156,9 @@ namespace InventoryOrderManger.Views
         private void SetPageData()
         {
             this.itemName.Text = item.ItemName;
-            this.sellPrice.Text = Utils.ToString(item.SellPrice);
+            this.wholeSalePrice.Text = Utils.ToString(item.WholeSalePrice);
+            this.retailSalePrice.Text = Utils.ToString(item.RetailSalePrice);
+            this.customerSellingPrice.Text = Utils.ToString(item.CustomerSellingPrice);
             this.description.Text = Utils.ToString(item.Description);
             this.purchasePrice.Text = Utils.ToString(item.PurchasePrice);
             this.stockQty.Text = Utils.ToString(item.StockQty);
@@ -158,7 +169,9 @@ namespace InventoryOrderManger.Views
         private void GetPageData(Item item)
         {
             item.ItemName = this.itemName.Text;
-            item.SellPrice = Utils.ToDecimal(this.sellPrice.Text);
+            item.WholeSalePrice = Utils.ToDecimal(this.wholeSalePrice.Text);
+            item.RetailSalePrice = Utils.ToDecimal(this.retailSalePrice.Text, item.WholeSalePrice);
+            item.CustomerSellingPrice = Utils.ToDecimal(this.customerSellingPrice.Text, item.WholeSalePrice);
             item.Description = Utils.ToString(this.description.Text);
             item.PurchasePrice = Utils.ToDecimal(this.purchasePrice.Text);
             item.StockQty = Utils.ToDecimal(this.stockQty.Text);

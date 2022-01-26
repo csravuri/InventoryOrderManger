@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
-using static InventoryOrderManger.Common.Enumerations;
 
 namespace InventoryOrderManger.Common
 {
     public static class SequenceGenerator
     {
         private static DbConnection dbConnection = DbConnection.GetDbConnection();
-        public static async Task<string> GetSequenceNo(SequenceType sequenceType)
+
+        public static async Task<string> GetSequenceNo(string sequenceType)
         {
             List<Sequence> sequences = await dbConnection.GetSequences();
 
@@ -32,10 +31,9 @@ namespace InventoryOrderManger.Common
             {
                 sequence.Count++;
                 await dbConnection.UpdateRecord(sequence);
-            }            
+            }
 
             return $"{sequence.SequenceType}-{sequence.Count}({DateTime.Now:dd/MM/yyyy})";
-
         }
     }
 }

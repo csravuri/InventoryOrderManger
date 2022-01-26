@@ -8,7 +8,22 @@ namespace InventoryOrderManger.Models
         public Guid OrderID { get; set; }
         public Guid ItemID { get; set; }
         public string ItemName { get; set; }
-        public decimal ItemSellPrice { get; set; }
+        public decimal _itemSellPrice { get; set; }
+
+        public decimal ItemSellPrice
+        {
+            get
+            {
+                return _itemSellPrice;
+            }
+            set
+            {
+                _itemSellPrice = value;
+
+                OnPropertyChanged(this, new PropertyChangedEventArgs(nameof(ItemSellPrice)));
+            }
+        }
+
         public decimal ItemOrderQty { get; set; }
 
         private decimal _itemTotalPrice;
