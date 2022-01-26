@@ -2,8 +2,7 @@
 using InventoryOrderManger.Common;
 using InventoryOrderManger.Database;
 using InventoryOrderManger.Models;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -57,29 +56,25 @@ namespace InventoryOrderManger.Views
 
         private async void CaptureImage(object sender, EventArgs e)
         {
-            await CrossMedia.Current.Initialize();
-
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            {
-                await DisplayAlert("No Camera", ":( No camera available.", "OK");
-                return;
-            }
-
             try
             {
-                // https://github.com/jamesmontemagno/MediaPlugin
-                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                var file = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions
                 {
-                    PhotoSize = PhotoSize.Full,
-                    Name = Utils.GetDateTimeFileName(".jpg"),
-                    AllowCropping = true,
+                    Title = "Take photo"
                 });
-
                 if (file == null)
                     return;
 
-                item.ImagePath = file.Path;
-                this.itemImage.Source = ImageSource.FromFile(file.Path);
+                item.ImagePath = file.FullPath;
+                this.itemImage.Source = ImageSource.FromFile(file.FullPath);
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                await DisplayAlert("Not Supported", fnsEx.Message, "OK");
+            }
+            catch (PermissionException pEx)
+            {
+                await DisplayAlert("No Permission", pEx.Message, "OK");
             }
             catch (Exception ex)
             {
