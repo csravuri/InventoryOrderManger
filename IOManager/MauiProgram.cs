@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using IOManager.ViewModels;
+using IOManager.Views;
+using Microsoft.Extensions.Logging;
 
 namespace IOManager;
 
@@ -18,6 +20,9 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		builder.Services.AddSingleton<HomeViewModel>();
+		builder.Services.AddSingleton<HomePage>();
 
 		return builder.Build();
 	}
