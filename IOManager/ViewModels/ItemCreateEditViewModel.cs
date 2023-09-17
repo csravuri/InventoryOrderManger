@@ -38,6 +38,9 @@ namespace IOManager.ViewModels
 		[ObservableProperty]
 		string title = CreateItemCaption;
 
+		[ObservableProperty]
+		bool isCreate = true;
+
 		[RelayCommand]
 		async Task SaveAndBack()
 		{
@@ -64,7 +67,7 @@ namespace IOManager.ViewModels
 
 			try
 			{
-				await Connection.Create(new ItemModel
+				var model = new ItemModel
 				{
 					ItemName = ItemName,
 					WholeSalePrice = WholeSalePrice ?? RetailSalePrice ?? 0m,
@@ -73,9 +76,19 @@ namespace IOManager.ViewModels
 					StockQuantity = StockQuantity,
 					Description = Description,
 					ImagePath = ImagePath
-				});
+				};
 
-				Clear();
+				if (IsCreate)
+				{
+					await Connection.Create(model);
+					Clear();
+				}
+				else
+				{
+					model.Id = modelId;
+					await Connection.Update(model);
+				}
+
 				return true;
 			}
 			catch (SQLiteException slx) when (slx.Message.Contains("UNIQUE"))
@@ -106,6 +119,7 @@ namespace IOManager.ViewModels
 			PurchasePrice = null;
 			StockQuantity = null;
 			Description = null;
+			ImagePath = DefaultImagePath;
 		}
 
 		[RelayCommand]
@@ -191,9 +205,23 @@ namespace IOManager.ViewModels
 
 		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
 		{
-			if (query[GlobalConstants.ItemSearchText] is string itemSearchText)
+			if (query.TryGetValue(GlobalConstants.ItemSearchText, out var searchTextValue) && searchTextValue is string itemSearchText)
 			{
 				ItemName = itemSearchText;
+			}
+			else if (query.TryGetValue(GlobalConstants.ItemUpdate, out var modelValue) && modelValue is ItemModel model)
+			{
+				ItemName = model.ItemName;
+				WholeSalePrice = model.WholeSalePrice;
+				RetailSalePrice = model.RetailSalePrice;
+				PurchasePrice = model.PurchasePrice;
+				StockQuantity = model.StockQuantity;
+				Description = model.Description;
+				ImagePath = model.ImagePath;
+				modelId = model.Id;
+
+				Title = UpdateItemCaption;
+				IsCreate = false;
 			}
 		}
 
@@ -205,8 +233,10 @@ namespace IOManager.ViewModels
 		const string ImageCaption = "Image";
 		const string ImagesSubFolder = "Images";
 		const string CreateItemCaption = "Create Item";
+		const string UpdateItemCaption = "Update Item";
 
 		DbConnection Connection { get; }
 		readonly string ImagesSubFolderPath = Path.Combine(GlobalConstants.RootFolder, ImagesSubFolder);
+		int modelId;
 	}
 }

@@ -22,6 +22,11 @@
 					x:DataType="models:ItemModel">
 					<Frame Padding="0"
 						   Margin="0,5">
+						<Frame.GestureRecognizers>
+							<TapGestureRecognizer 
+								Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ItemsSearchViewModel}}, Path=SelectedCommand}"
+								CommandParameter="{Binding .}"/>
+						</Frame.GestureRecognizers>
 						<Grid 
 							RowDefinitions="1.5*, *, *"
 							ColumnDefinitions="*, * , *"

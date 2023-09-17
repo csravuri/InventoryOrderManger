@@ -53,6 +53,20 @@ namespace IOManager.ViewModels
 			await Shell.Current.GoToAsync($"./{nameof(ItemCreateEditPage)}", searchItemParameterDict);
 		}
 
+		[RelayCommand]
+		async Task Selected(object obj)
+		{
+			if (obj is ItemModel model)
+			{
+				var updateItemParameterDict = new Dictionary<string, object>()
+				{
+					{ GlobalConstants.ItemUpdate, model },
+				};
+				await Shell.Current.GoToAsync($"./{nameof(ItemCreateEditPage)}", updateItemParameterDict);
+
+			}
+		}
+
 		DbConnection Connection { get; }
 	}
 }
