@@ -1,4 +1,5 @@
-﻿using IOManager.ViewModels;
+﻿using IOManager.Database;
+using IOManager.ViewModels;
 using IOManager.Views;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +38,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<OrdersSearchViewModel>();
 		builder.Services.AddTransient<BackupViewModel>();
 		builder.Services.AddTransient<RestoreViewModel>();
+
+		builder.Services.AddSingleton<DbConnection>();
 
 		return builder.Build();
 	}
