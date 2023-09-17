@@ -7,11 +7,12 @@
 			 x:DataType="viewModels:HomeViewModel">
 
 	<Grid ColumnDefinitions="*,*"
-		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*"
+		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, 6*"
 		  ColumnSpacing="50"
-		  RowSpacing="50"
+		  RowSpacing="10"
 		  Padding="20">
-		<Label Text="Item"
+		<Label Text="Item" 
+			   VerticalOptions="Center"
 			   HorizontalOptions="CenterAndExpand"
 			   FontSize="Large"
 			   Grid.ColumnSpan="2"/>
@@ -26,6 +27,7 @@
 				Grid.Column="1"/>
 
 		<Label Text="Order"
+			   VerticalOptions="Center"
 			   HorizontalOptions="CenterAndExpand"
 			   FontSize="Large"
 			   Grid.Row="2"
@@ -41,6 +43,7 @@
 				Grid.Column="1"/>
 
 		<Label Text="Config"
+			   VerticalOptions="Center"
 			   HorizontalOptions="CenterAndExpand"
 			   FontSize="Large"
 			   Grid.Row="4"
