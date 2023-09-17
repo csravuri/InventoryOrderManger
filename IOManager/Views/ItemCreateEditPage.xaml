@@ -2,11 +2,95 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.ItemCreateEditPage"
+			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
+			 x:DataType="viewModels:ItemCreateEditViewModel"
              Title="ItemCreateEditPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+	<Grid
+		RowDefinitions="*, 2*"
+		Padding="5">
+		<Label Text="image here"/>
+		<Image Source="{Binding ImagePath}">
+			<Image.GestureRecognizers>
+				<TapGestureRecognizer Command="{Binding ImageTapCommand}"/>
+			</Image.GestureRecognizers>
+		</Image>
+		<VerticalStackLayout
+			Grid.Row="1">
+
+			<Label 
+				Text="Item Name"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding ItemName}"
+				ReturnType="Next"/>
+
+			<Label 
+				Text="Whole Sale Price"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding WholeSalePrice}"
+				Keyboard="Numeric"
+				ReturnType="Next"/>
+
+			<Label 
+				Text="Retail Sale Price"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding RetailSalePrice}"
+				Keyboard="Numeric"
+				ReturnType="Next"/>
+
+			<Label 
+				Text="Description"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding Description}"
+				ReturnType="Next"/>
+
+			<Label 
+				Text="Purchase Price"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding PurchasePrice}"
+				Keyboard="Numeric"
+				ReturnType="Next"/>
+
+			<Label 
+				Text="Stock Quanity"
+				FontSize="Subtitle"
+				FontAttributes="Bold"/>
+			<Entry 
+				Text="{Binding StockQuantity}"
+				Keyboard="Numeric"
+				ReturnType="Done"/>
+
+			<Grid ColumnDefinitions="*, *, *, *, *"
+				  ColumnSpacing="15">
+				<Button 
+					Text="Back"
+					Command="{Binding BackCommand}"/>
+
+				<Button 
+					Text="Clear"
+					Grid.Column="1"
+					Command="{Binding ClearCommand}"/>
+
+				<Button 
+					Text="Save"
+					Grid.Column="2"
+					Command="{Binding SaveCommand}"/>
+
+				<Button 
+					Text="Save &amp; Back"
+					Grid.ColumnSpan="2"
+					Grid.Column="3"
+					Command="{Binding SaveAndBackCommand}"/>
+			</Grid>
+		</VerticalStackLayout>
+	</Grid>
 </ContentPage>
