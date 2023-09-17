@@ -61,16 +61,28 @@ namespace IOManager.ViewModels
 		{
 			if (ImagePath == DefaultImagePath)
 			{
-				await CaptureImage();
+				var resultWhenDefaultImage = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, string.Empty, GalleryCaption, CameraCaption);
+				await GetImage(resultWhenDefaultImage);
 				return;
 			}
 
-			var result = await Shell.Current.DisplayActionSheet("Image", BackCaption, RemoveCaption, UpdateCaption);
+			var result = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, RemoveCaption, GalleryCaption);
 			if (result == RemoveCaption)
 			{
 				ImagePath = DefaultImagePath;
+				return;
 			}
-			else if (result == UpdateCaption)
+
+			await GetImage(result);
+		}
+
+		async Task GetImage(string pickerResult)
+		{
+			if (pickerResult == GalleryCaption)
+			{
+				await PickImage();
+			}
+			else if (pickerResult == CameraCaption)
 			{
 				await CaptureImage();
 			}
@@ -78,12 +90,37 @@ namespace IOManager.ViewModels
 
 		async Task CaptureImage()
 		{
-			await Task.CompletedTask;
+			var options = new MediaPickerOptions();
+			options.Title = "Take Image";
+			var captureResult = await MediaPicker.CapturePhotoAsync(options);
+			var capturedImagePath = captureResult?.FullPath;
+			if (!string.IsNullOrEmpty(capturedImagePath))
+			{
+				var destiantion = Path.Combine(FileSystem.AppDataDirectory, Path.GetFileName(capturedImagePath));
+				File.Move(capturedImagePath, destiantion);
+				ImagePath = destiantion;
+			}
+		}
+
+		async Task PickImage()
+		{
+			var options = new MediaPickerOptions();
+			options.Title = "Pick Image";
+			var captureResult = await MediaPicker.PickPhotoAsync(options);
+			var pickedImagePath = captureResult?.FullPath;
+			if (!string.IsNullOrEmpty(pickedImagePath))
+			{
+				var destiantion = Path.Combine(FileSystem.AppDataDirectory, Path.GetFileName(pickedImagePath));
+				File.Copy(pickedImagePath, destiantion);
+				ImagePath = pickedImagePath;
+			}
 		}
 
 		const string DefaultImagePath = "default_image.png";
 		const string BackCaption = "Back";
 		const string RemoveCaption = "Remove";
-		const string UpdateCaption = "Update";
+		const string GalleryCaption = "Gallery";
+		const string CameraCaption = "Camera";
+		const string ImageCaption = "Image";
 	}
 }

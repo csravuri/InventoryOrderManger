@@ -8,7 +8,6 @@
 	<Grid
 		RowDefinitions="*, 2*"
 		Padding="5">
-		<Label Text="image here"/>
 		<Image Source="{Binding ImagePath}">
 			<Image.GestureRecognizers>
 				<TapGestureRecognizer Command="{Binding ImageTapCommand}"/>
