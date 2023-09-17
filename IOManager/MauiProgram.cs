@@ -24,19 +24,19 @@ public static class MauiProgram
 		builder.Services.AddSingleton<HomeViewModel>();
 		builder.Services.AddSingleton<HomePage>();
 
-		builder.Services.AddSingleton<ItemCreateEditPage>();
-		builder.Services.AddSingleton<ItemsSearchPage>();
-		builder.Services.AddSingleton<OrderCreateEditPage>();
-		builder.Services.AddSingleton<OrdersSearchPage>();
-		builder.Services.AddSingleton<BackupPage>();
-		builder.Services.AddSingleton<RestorePage>();
+		builder.Services.AddTransient<ItemCreateEditPage>();
+		builder.Services.AddTransient<ItemsSearchPage>();
+		builder.Services.AddTransient<OrderCreateEditPage>();
+		builder.Services.AddTransient<OrdersSearchPage>();
+		builder.Services.AddTransient<BackupPage>();
+		builder.Services.AddTransient<RestorePage>();
 
-		builder.Services.AddSingleton<ItemCreateEditViewModel>();
-		builder.Services.AddSingleton<ItemsSearchViewModel>();
-		builder.Services.AddSingleton<OrderCreateEditViewModel>();
-		builder.Services.AddSingleton<OrdersSearchViewModel>();
-		builder.Services.AddSingleton<BackupViewModel>();
-		builder.Services.AddSingleton<RestoreViewModel>();
+		builder.Services.AddTransient<ItemCreateEditViewModel>();
+		builder.Services.AddTransient<ItemsSearchViewModel>();
+		builder.Services.AddTransient<OrderCreateEditViewModel>();
+		builder.Services.AddTransient<OrdersSearchViewModel>();
+		builder.Services.AddTransient<BackupViewModel>();
+		builder.Services.AddTransient<RestoreViewModel>();
 
 		return builder.Build();
 	}
