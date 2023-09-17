@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IOManager.Views.ItemsSearchPage"
+			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
+			 xmlns:models="clr-namespace:IOManager.Models"
+			 x:DataType="viewModels:ItemsSearchViewModel"
+             Title="{Binding Title}">
+	<VerticalStackLayout
+		Padding="5">
+		<HorizontalStackLayout>
+			<SearchBar 
+				Text="{Binding SearchText}"
+				SearchCommand="{Binding SearchCommand}"/>
+			<Button Text="+ New"
+					Command="{Binding AddNewCommand}"/>
+		</HorizontalStackLayout>
+		<CollectionView
+			ItemsSource="{Binding Items}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate 
+					x:DataType="models:ItemModel">
+					<Frame Padding="0"
+						   Margin="0,5">
+						<Frame.GestureRecognizers>
+							<TapGestureRecognizer 
+								Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ItemsSearchViewModel}}, Path=SelectedCommand}"
+								CommandParameter="{Binding .}"/>
+						</Frame.GestureRecognizers>
+						<Grid 
+							RowDefinitions="1.5*, *, *"
+							ColumnDefinitions="*, * , *"
+							ColumnSpacing="10">
+							<Image 
+								Source="{Binding ImagePath}"
+								Grid.RowSpan="3"/>
+							<Label 
+								Text="{Binding ItemName}"
+								FontAttributes="Bold"
+								FontSize="Body"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"/>
+							<Label 
+								Text="{Binding WholeSalePrice}"
+								FontSize="Body"
+								Grid.Row="1"
+								Grid.Column="1"/>
+							<Label 
+								Text="{Binding RetailSalePrice}"
+								FontSize="Body"
+								Grid.Row="1"
+								Grid.Column="2"/>
+							<Label 
+								Text="{Binding Description}"
+								FontSize="Body"
+								Grid.Row="2"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"/>
+						</Grid>
+					</Frame>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+	</VerticalStackLayout>
+</ContentPage>

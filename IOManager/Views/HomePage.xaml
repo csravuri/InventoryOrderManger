@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IOManager.Views.HomePage"
+             Title="{Binding Title}"
+			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
+			 x:DataType="viewModels:HomeViewModel">
+
+	<Grid ColumnDefinitions="*,*"
+		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, 6*"
+		  ColumnSpacing="50"
+		  RowSpacing="10"
+		  Padding="20">
+		<Label Text="Item" 
+			   VerticalOptions="Center"
+			   HorizontalOptions="CenterAndExpand"
+			   FontSize="Large"
+			   Grid.ColumnSpan="2"/>
+		<Button Text="Create"
+				FontSize="Large"
+				Command="{Binding ItemCreateCommand}"
+				Grid.Row="1"/>
+		<Button Text="View"
+				FontSize="Large"
+				Command="{Binding ItemViewCommand}"
+				Grid.Row="1"
+				Grid.Column="1"/>
+
+		<Label Text="Order"
+			   VerticalOptions="Center"
+			   HorizontalOptions="CenterAndExpand"
+			   FontSize="Large"
+			   Grid.Row="2"
+			   Grid.ColumnSpan="2"/>
+		<Button Text="Create"
+				FontSize="Large"
+				Command="{Binding OrderCreateCommand}"
+				Grid.Row="3"/>
+		<Button Text="View"
+				FontSize="Large"
+				Command="{Binding OrderViewCommand}"
+				Grid.Row="3"
+				Grid.Column="1"/>
+
+		<Label Text="Config"
+			   VerticalOptions="Center"
+			   HorizontalOptions="CenterAndExpand"
+			   FontSize="Large"
+			   Grid.Row="4"
+			   Grid.ColumnSpan="2"/>
+		<Button Text="Backup"
+				FontSize="Large"
+				Command="{Binding BackupCommand}"
+				Grid.Row="5"/>
+		<Button Text="Restore"
+				FontSize="Large"
+				Command="{Binding RestoreCommand}"
+				Grid.Row="5"
+				Grid.Column="1"/>
+	</Grid>
+	
+</ContentPage>
