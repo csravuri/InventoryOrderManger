@@ -8,12 +8,15 @@
              Title="{Binding Title}">
 	<VerticalStackLayout
 		Padding="5">
-		<SearchBar 
-			Text="{Binding SearchText}"
-			SearchCommand="{Binding SearchCommand}"/>
+		<HorizontalStackLayout>
+			<SearchBar 
+				Text="{Binding SearchText}"
+				SearchCommand="{Binding SearchCommand}"/>
+			<Button Text="+ New"
+					Command="{Binding AddNewCommand}"/>
+		</HorizontalStackLayout>
 		<CollectionView
-			ItemsSource="{Binding Items}"
-			>
+			ItemsSource="{Binding Items}">
 			<CollectionView.ItemTemplate>
 				<DataTemplate 
 					x:DataType="models:ItemModel">
@@ -49,7 +52,7 @@
 								Grid.Column="1"
 								Grid.ColumnSpan="2"/>
 						</Grid>
-					</Frame>					
+					</Frame>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
 		</CollectionView>
