@@ -7,7 +7,7 @@ using SQLite;
 
 namespace IOManager.ViewModels
 {
-	public partial class ItemCreateEditViewModel : ObservableObject
+	public partial class ItemCreateEditViewModel : ObservableObject, IQueryAttributable
 	{
 		public ItemCreateEditViewModel(DbConnection connection)
 		{
@@ -187,6 +187,14 @@ namespace IOManager.ViewModels
 			}
 
 			return Path.Combine(ImagesSubFolderPath, fileName + extention);
+		}
+
+		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+		{
+			if (query[GlobalConstants.ItemSearchText] is string itemSearchText)
+			{
+				ItemName = itemSearchText;
+			}
 		}
 
 		const string DefaultImagePath = "default_image.png";

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IOManager.Database;
 using IOManager.Models;
+using IOManager.Utils;
 using IOManager.Views;
 
 namespace IOManager.ViewModels
@@ -45,7 +46,11 @@ namespace IOManager.ViewModels
 		[RelayCommand]
 		async Task AddNew()
 		{
-			await Shell.Current.GoToAsync($"./{nameof(ItemCreateEditPage)}");
+			var searchItemParameterDict = new Dictionary<string, object>()
+			{
+				{ GlobalConstants.ItemSearchText, SearchText },
+			};
+			await Shell.Current.GoToAsync($"./{nameof(ItemCreateEditPage)}", searchItemParameterDict);
 		}
 
 		DbConnection Connection { get; }
