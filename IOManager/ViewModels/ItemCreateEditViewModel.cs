@@ -66,7 +66,7 @@ namespace IOManager.ViewModels
 				return;
 			}
 
-			var result = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, RemoveCaption, GalleryCaption);
+			var result = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, RemoveCaption, GalleryCaption, CameraCaption);
 			if (result == RemoveCaption)
 			{
 				ImagePath = DefaultImagePath;
