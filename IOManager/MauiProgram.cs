@@ -25,6 +25,11 @@ public static class MauiProgram
 		builder.Services.AddSingleton<HomePage>();
 
 		builder.Services.AddSingleton<ItemCreateEditPage>();
+		builder.Services.AddSingleton<ItemsSearchPage>();
+		builder.Services.AddSingleton<OrderCreateEditPage>();
+		builder.Services.AddSingleton<OrdersSearchPage>();
+		builder.Services.AddSingleton<BackupPage>();
+		builder.Services.AddSingleton<RestorePage>();
 
 		return builder.Build();
 	}

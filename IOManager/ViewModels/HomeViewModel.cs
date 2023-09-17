@@ -13,28 +13,33 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
-		void ItemView()
+		async Task ItemView()
 		{
+			await Shell.Current.GoToAsync($"{nameof(ItemsSearchPage)}");
 		}
 
 		[RelayCommand]
-		void OrderCreate()
+		async Task OrderCreate()
 		{
+			await Shell.Current.GoToAsync($"{nameof(OrderCreateEditPage)}");
 		}
 
 		[RelayCommand]
-		void OrderView()
+		async Task OrderView()
 		{
+			await Shell.Current.GoToAsync($"{nameof(OrdersSearchPage)}");
 		}
 
 		[RelayCommand]
-		void Backup()
+		async Task Backup()
 		{
+			await Shell.Current.GoToAsync($"{nameof(BackupPage)}");
 		}
 
 		[RelayCommand]
-		void Restore()
+		async Task Restore()
 		{
+			await Shell.Current.GoToAsync($"{nameof(RestorePage)}");
 		}
 	}
 }
