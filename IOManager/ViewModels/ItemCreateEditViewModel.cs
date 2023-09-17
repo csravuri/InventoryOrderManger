@@ -35,6 +35,9 @@ namespace IOManager.ViewModels
 		[ObservableProperty]
 		string imagePath = DefaultImagePath;
 
+		[ObservableProperty]
+		string title = CreateItemCaption;
+
 		[RelayCommand]
 		async Task SaveAndBack()
 		{
@@ -193,6 +196,7 @@ namespace IOManager.ViewModels
 		const string CameraCaption = "Camera";
 		const string ImageCaption = "Image";
 		const string ImagesSubFolder = "Images";
+		const string CreateItemCaption = "Create Item";
 
 		DbConnection Connection { get; }
 		readonly string ImagesSubFolderPath = Path.Combine(GlobalConstants.RootFolder, ImagesSubFolder);

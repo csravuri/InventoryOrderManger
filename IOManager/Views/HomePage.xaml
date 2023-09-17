@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.HomePage"
-             Title="HomePage"
+             Title="{Binding Title}"
 			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
 			 x:DataType="viewModels:HomeViewModel">
 

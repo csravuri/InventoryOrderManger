@@ -5,7 +5,7 @@
 			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
 			 xmlns:models="clr-namespace:IOManager.Models"
 			 x:DataType="viewModels:ItemsSearchViewModel"
-             Title="ItemsSearchPage">
+             Title="{Binding Title}">
 	<VerticalStackLayout
 		Padding="5">
 		<SearchBar 

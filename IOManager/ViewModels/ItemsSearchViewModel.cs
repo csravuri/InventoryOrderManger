@@ -17,6 +17,10 @@ namespace IOManager.ViewModels
 		public ObservableCollection<ItemModel> Items { get; }
 
 		[ObservableProperty]
+		string title = "Items Search";
+
+
+		[ObservableProperty]
 		string searchText;
 
 		[RelayCommand]

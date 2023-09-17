@@ -6,6 +6,9 @@ namespace IOManager.ViewModels
 {
 	public partial class HomeViewModel : ObservableObject
 	{
+		[ObservableProperty]
+		string title = "IO Manager";
+
 		[RelayCommand]
 		async Task ItemCreate()
 		{
