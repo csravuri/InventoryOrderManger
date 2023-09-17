@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IOManager.Views;
 
 namespace IOManager.ViewModels
 {
 	public partial class HomeViewModel : ObservableObject
 	{
 		[RelayCommand]
-		void ItemCreate()
+		async Task ItemCreate()
 		{
+			await Shell.Current.GoToAsync($"{nameof(ItemCreateEditPage)}");
 		}
 
 		[RelayCommand]
