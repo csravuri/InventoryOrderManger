@@ -31,6 +31,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<BackupPage>();
 		builder.Services.AddSingleton<RestorePage>();
 
+		builder.Services.AddSingleton<ItemCreateEditViewModel>();
+		builder.Services.AddSingleton<ItemsSearchViewModel>();
+		builder.Services.AddSingleton<OrderCreateEditViewModel>();
+		builder.Services.AddSingleton<OrdersSearchViewModel>();
+		builder.Services.AddSingleton<BackupViewModel>();
+		builder.Services.AddSingleton<RestoreViewModel>();
+
 		return builder.Build();
 	}
 }
