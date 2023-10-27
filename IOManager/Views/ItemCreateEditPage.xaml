@@ -22,6 +22,7 @@
 				FontAttributes="Bold"/>
 			<Entry 
 				Text="{Binding ItemName}"
+				Keyboard="Chat"
 				ReturnType="Next"/>
 
 			<Label 
@@ -48,6 +49,7 @@
 				FontAttributes="Bold"/>
 			<Entry 
 				Text="{Binding Description}"
+				Keyboard="Chat"
 				ReturnType="Next"/>
 
 			<Label 
