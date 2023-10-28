@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.OrderCreateEditPage"
 			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
+			 xmlns:models="clr-namespace:IOManager.Models"
 			 x:DataType="viewModels:OrderCreateEditViewModel"
              Title="OrderCreateEditPage">
 	<Grid
@@ -31,6 +32,35 @@
 				</Label.GestureRecognizers>
 			</Label>
 		</HorizontalStackLayout>
+
+		<CollectionView
+			Grid.Row="2"
+			Grid.ColumnSpan="4"
+			ItemsSource="{Binding Lines}">
+			<CollectionView.Header>
+				<Grid
+					ColumnDefinitions="*,*,*,*">
+					<Label
+						Text="Name"/>
+					<Label
+						Grid.Column="1"
+						Text="Qty"/>
+					<Label
+						Grid.Column="2"
+						Text="Price"/>
+					<Label
+						Grid.Column="3"
+						Text="Total"/>
+				</Grid>
+			</CollectionView.Header>
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="models:OrderLineModel">
+					<Grid>
+						<Label Text="{Binding ItemName}"/>
+					</Grid>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
 		<Button
 			Grid.Row="3"
