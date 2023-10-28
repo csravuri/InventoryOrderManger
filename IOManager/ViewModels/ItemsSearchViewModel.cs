@@ -18,6 +18,13 @@ namespace IOManager.ViewModels
 
 		public ObservableCollection<ItemModel> Items { get; }
 
+		Task<IEnumerable<ItemModel>> AllItems => allItems ??= GetAllItems();
+		Task<IEnumerable<ItemModel>> allItems;
+		async Task<IEnumerable<ItemModel>> GetAllItems()
+		{
+			return await Connection.GetAll<ItemModel>(x => true);
+		}
+
 		[ObservableProperty]
 		string title = "Items Search";
 
@@ -26,21 +33,25 @@ namespace IOManager.ViewModels
 		string searchText;
 
 		[RelayCommand]
-		async Task Search()
+		async Task Search(bool? reloadItems)
 		{
-			if (string.IsNullOrWhiteSpace(SearchText))
+			if (reloadItems == true)
 			{
-				return;
+				allItems = null;
 			}
 
 			Items.Clear();
-			var items = await Connection.GetAll<ItemModel>(x => x.ItemName.ToLower().Contains(SearchText.ToLower()));
-
-			foreach (var item in items)
+			var items = await AllItems;
+			foreach (var item in items.Where(IsItemNeeded))
 			{
 				Items.Add(item);
 			}
+		}
 
+		bool IsItemNeeded(ItemModel item)
+		{
+			return string.IsNullOrEmpty(SearchText)
+				|| SearchText.Split(" ").Where(x => !string.IsNullOrEmpty(x)).Any(item.ItemName.Contains);
 		}
 
 		[RelayCommand]

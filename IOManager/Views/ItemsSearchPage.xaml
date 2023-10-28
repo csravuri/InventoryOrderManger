@@ -11,7 +11,8 @@
 		<HorizontalStackLayout>
 			<SearchBar 
 				Text="{Binding SearchText}"
-				SearchCommand="{Binding SearchCommand}"/>
+				SearchCommand="{Binding SearchCommand}"
+				TextChanged="SearchBar_TextChanged"/>
 			<Button Text="+ New"
 					Command="{Binding AddNewCommand}"/>
 		</HorizontalStackLayout>
