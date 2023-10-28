@@ -8,7 +8,7 @@ using IOManager.Views;
 
 namespace IOManager.ViewModels
 {
-	public partial class ItemsSearchViewModel : ObservableObject
+	public partial class ItemsSearchViewModel : ObservableObject, IQueryAttributable
 	{
 		public ItemsSearchViewModel(DbConnection connection)
 		{
@@ -18,19 +18,14 @@ namespace IOManager.ViewModels
 
 		public ObservableCollection<ItemModel> Items { get; }
 
-		Task<IEnumerable<ItemModel>> AllItems => allItems ??= GetAllItems();
-		Task<IEnumerable<ItemModel>> allItems;
-		async Task<IEnumerable<ItemModel>> GetAllItems()
-		{
-			return await Connection.GetAll<ItemModel>(x => true);
-		}
-
 		[ObservableProperty]
 		string title = "Items Search";
 
-
 		[ObservableProperty]
 		string searchText;
+
+		[ObservableProperty]
+		bool isFromOrderSelection;
 
 		[RelayCommand]
 		async Task Search(bool? reloadItems)
@@ -46,12 +41,6 @@ namespace IOManager.ViewModels
 			{
 				Items.Add(item);
 			}
-		}
-
-		bool IsItemNeeded(ItemModel item)
-		{
-			return string.IsNullOrEmpty(SearchText)
-				|| SearchText.Split(" ").Where(x => !string.IsNullOrEmpty(x)).Any(item.ItemName.Contains);
 		}
 
 		[RelayCommand]
@@ -78,6 +67,46 @@ namespace IOManager.ViewModels
 			}
 		}
 
+		[RelayCommand]
+		async Task Back()
+		{
+			await Shell.Current.GoToAsync("..");
+		}
+
+		[RelayCommand]
+		async Task Done()
+		{
+			var selectedItems = Items.Where(x => x.IsSelected);
+
+			var selectedItemsParameterDict = new Dictionary<string, object>()
+			{
+				{ GlobalConstants.SelectedItems, selectedItems },
+			};
+			await Shell.Current.GoToAsync("..", selectedItemsParameterDict);
+		}
+
 		DbConnection Connection { get; }
+
+		Task<IEnumerable<ItemModel>> AllItems => allItems ??= GetAllItems();
+		Task<IEnumerable<ItemModel>> allItems;
+
+		async Task<IEnumerable<ItemModel>> GetAllItems()
+		{
+			return await Connection.GetAll<ItemModel>(x => true);
+		}
+
+		bool IsItemNeeded(ItemModel item)
+		{
+			return string.IsNullOrEmpty(SearchText)
+				|| SearchText.Split(" ").Where(x => !string.IsNullOrEmpty(x)).Any(item.ItemName.Contains);
+		}
+
+		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+		{
+			if (query.TryGetValue(GlobalConstants.ItemSelect, out var value) && value is bool isForItemSelect && isForItemSelect)
+			{
+				IsFromOrderSelection = true;
+			}
+		}
 	}
 }

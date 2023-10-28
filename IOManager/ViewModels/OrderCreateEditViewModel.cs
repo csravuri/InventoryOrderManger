@@ -3,11 +3,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IOManager.Database;
 using IOManager.Models;
+using IOManager.Utils;
 using IOManager.Views;
 
 namespace IOManager.ViewModels
 {
-	public partial class OrderCreateEditViewModel : ObservableObject
+	public partial class OrderCreateEditViewModel : ObservableObject, IQueryAttributable
 	{
 		public OrderCreateEditViewModel(DbConnection connection)
 		{
@@ -26,7 +27,11 @@ namespace IOManager.ViewModels
 		[RelayCommand]
 		async Task AddItems()
 		{
-			await Shell.Current.GoToAsync($"{nameof(ItemsSearchPage)}");
+			var selectItemParameterDict = new Dictionary<string, object>()
+			{
+				{ GlobalConstants.ItemSelect, true },
+			};
+			await Shell.Current.GoToAsync($"{nameof(ItemsSearchPage)}", selectItemParameterDict);
 		}
 
 		[RelayCommand]
@@ -96,6 +101,22 @@ namespace IOManager.ViewModels
 			}
 
 			return true;
+		}
+
+		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+		{
+			if (query.TryGetValue(GlobalConstants.SelectedItems, out var value) && value is IEnumerable<ItemModel> selectedItems)
+			{
+				foreach (var item in selectedItems)
+				{
+					Lines.Add(new OrderLineModel()
+					{
+						ItemName = item.ItemName,
+						Price = IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice ?? 0m,
+						Qty = 1
+					});
+				}
+			}
 		}
 
 		DbConnection Connection { get; }
