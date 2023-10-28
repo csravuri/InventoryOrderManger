@@ -13,6 +13,12 @@ namespace IOManager.Database
 			await connection.InsertAsync(model);
 		}
 
+		public async Task Create<T>(IEnumerable<T> models)
+		{
+			await Init();
+			await connection.InsertAllAsync(models);
+		}
+
 		public async Task<T> Get<T>(int id) where T : class, new()
 		{
 			await Init();
