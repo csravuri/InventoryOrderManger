@@ -8,7 +8,7 @@
              Title="OrderCreateEditPage">
 	<Grid
 		ColumnDefinitions="*,*,*,*"
-		RowDefinitions="*,*,15*,*"
+		RowDefinitions="*,*,15*,Auto,Auto"
 		ColumnSpacing="5"
 		Margin="5">
 		<Entry 
@@ -56,7 +56,7 @@
 				</Grid>
 			</CollectionView.Header>
 			<CollectionView.ItemTemplate>
-				<DataTemplate x:DataType="models:OrderLineModel">
+				<DataTemplate x:DataType="viewModels:OrderLineCreateEditViewModel">
 					<Grid
 						Padding="0,5"
 						ColumnSpacing="5"
@@ -70,8 +70,7 @@
 							BackgroundColor="Red"
 							TextColor="Black"
 							FontSize="Title"
-							Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderCreateEditViewModel}}, Path=QtyDecCommand}"
-							CommandParameter="{Binding .}"
+							Command="{Binding QtyDecCommand}"
 							Text="-"/>
 						<Entry
 							Grid.Column="2"
@@ -82,8 +81,7 @@
 							BackgroundColor="Green"
 							TextColor="Black"
 							FontSize="Title"
-							Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderCreateEditViewModel}}, Path=QtyIncCommand}"
-							CommandParameter="{Binding .}"
+							Command="{Binding QtyIncCommand}"
 							Text="+"/>
 						<Entry
 							Grid.Column="4"
@@ -99,18 +97,23 @@
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
 		</CollectionView>
-
-		<Button
+		<Label 
 			Grid.Row="3"
+			Grid.Column="2"
+			Grid.ColumnSpan="2"
+			IsVisible="{Binding IsTotalVisible}"
+			Text="{Binding Total, StringFormat='Total Price = {0:F2}'}"/>
+		<Button
+			Grid.Row="4"
 			Text="Back"
 			Command="{Binding BackCommand}"/>
 		<Button
-			Grid.Row="3"
+			Grid.Row="4"
 			Grid.Column="1"
 			Text="Clear"
 			Command="{Binding ClearCommand}"/>
 		<Button
-			Grid.Row="3"
+			Grid.Row="4"
 			Grid.Column="3"
 			Text="Save"
 			Command="{Binding SaveCommand}"/>

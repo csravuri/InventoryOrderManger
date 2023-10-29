@@ -13,16 +13,22 @@ namespace IOManager.ViewModels
 		public OrderCreateEditViewModel(DbConnection connection)
 		{
 			Connection = connection;
-			Lines = new ObservableCollection<OrderLineModel>();
+			Lines = new ObservableCollection<OrderLineCreateEditViewModel>();
 		}
 
-		public ObservableCollection<OrderLineModel> Lines { get; }
+		public ObservableCollection<OrderLineCreateEditViewModel> Lines { get; }
 
 		[ObservableProperty]
 		string customerName;
 
 		[ObservableProperty]
 		bool isWholeSale = true;
+
+		[ObservableProperty]
+		[NotifyPropertyChangedFor(nameof(IsTotalVisible))]
+		decimal total;
+
+		public bool IsTotalVisible => Total > 0m;
 
 		[RelayCommand]
 		async Task AddItems()
@@ -70,32 +76,17 @@ namespace IOManager.ViewModels
 
 			await Connection.Create(header);
 
-			foreach (var line in Lines)
+			var lines = Lines.Select(x => new OrderLineModel
 			{
-				line.OrderId = header.Id;
-			}
+				ItemName = x.ItemName,
+				Qty = x.Qty,
+				Price = x.Price,
+				OrderId = header.Id
+			});
 
-			await Connection.Create(Lines);
+			await Connection.Create(lines);
 
 			Clear();
-		}
-
-		[RelayCommand]
-		void QtyDec(object obj)
-		{
-			if (obj is OrderLineModel line && --line.Qty == default)
-			{
-				Lines.Remove(line);
-			}
-		}
-
-		[RelayCommand]
-		void QtyInc(object obj)
-		{
-			if (obj is OrderLineModel line)
-			{
-				line.Qty++;
-			}
 		}
 
 		async Task<bool> IsValid()
@@ -127,14 +118,31 @@ namespace IOManager.ViewModels
 			{
 				foreach (var item in selectedItems)
 				{
-					Lines.Add(new OrderLineModel()
+					Lines.Add(new OrderLineCreateEditViewModel(OnLineQtyChanged)
 					{
 						ItemName = item.ItemName,
 						Price = IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice ?? 0m,
 						Qty = 1
 					});
 				}
+
+				UpdateTotal();
 			}
+		}
+
+		void OnLineQtyChanged(OrderLineCreateEditViewModel line)
+		{
+			if (line.Qty == default)
+			{
+				Lines.Remove(line);
+			}
+
+			UpdateTotal();
+		}
+
+		void UpdateTotal()
+		{
+			Total = Lines.Sum(x => x.Price * x.Qty);
 		}
 
 		DbConnection Connection { get; }

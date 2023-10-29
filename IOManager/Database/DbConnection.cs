@@ -52,7 +52,7 @@ namespace IOManager.Database
 			}
 
 			connection = new SQLiteAsyncConnection(DbFullPath(), DbFlags);
-			await connection.CreateTablesAsync(CreateFlags.None, typeof(ItemModel));
+			await connection.CreateTablesAsync(CreateFlags.None, typeof(ItemModel), typeof(OrderHeaderModel), typeof(OrderLineModel));
 		}
 
 		string DbFullPath()
