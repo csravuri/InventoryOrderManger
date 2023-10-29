@@ -80,6 +80,24 @@ namespace IOManager.ViewModels
 			Clear();
 		}
 
+		[RelayCommand]
+		void QtyDec(object obj)
+		{
+			if (obj is OrderLineModel line && --line.Qty == default)
+			{
+				Lines.Remove(line);
+			}
+		}
+
+		[RelayCommand]
+		void QtyInc(object obj)
+		{
+			if (obj is OrderLineModel line)
+			{
+				line.Qty++;
+			}
+		}
+
 		async Task<bool> IsValid()
 		{
 			if (Lines.Count == 0)

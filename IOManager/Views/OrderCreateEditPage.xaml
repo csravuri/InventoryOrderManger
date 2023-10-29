@@ -70,6 +70,8 @@
 							BackgroundColor="Red"
 							TextColor="Black"
 							FontSize="Title"
+							Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderCreateEditViewModel}}, Path=QtyDecCommand}"
+							CommandParameter="{Binding .}"
 							Text="-"/>
 						<Entry
 							Grid.Column="2"
@@ -80,14 +82,17 @@
 							BackgroundColor="Green"
 							TextColor="Black"
 							FontSize="Title"
+							Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderCreateEditViewModel}}, Path=QtyIncCommand}"
+							CommandParameter="{Binding .}"
 							Text="+"/>
 						<Entry
 							Grid.Column="4"
-							Text="{Binding Price}"/>
+							Text="{Binding Price}"
+							TextChanged="Entry_TextChanged"/>
 						<Label 
 							Grid.Column="5"
 							Text="{Binding Total}"
-						HorizontalTextAlignment="End"
+							HorizontalTextAlignment="End"
 							VerticalTextAlignment="Center"/>
 						
 					</Grid>
