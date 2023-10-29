@@ -72,6 +72,8 @@ namespace IOManager.ViewModels
 			{
 				CustomerName = CustomerName,
 				OrderNo = "Auto",
+				Total = Total,
+				LinesCount = Lines.Count
 			};
 
 			await Connection.Create(header);

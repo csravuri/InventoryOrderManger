@@ -12,5 +12,9 @@ namespace IOManager.Models
 
 		[MaxLength(100)]
 		public string CustomerName { get; set; }
+
+		public decimal Total { get; set; }
+
+		public int LinesCount { get; set; }
 	}
 }

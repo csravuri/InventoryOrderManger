@@ -2,11 +2,66 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.OrdersSearchPage"
+			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
+			 xmlns:models="clr-namespace:IOManager.Models"
+			 x:DataType="viewModels:OrdersSearchViewModel"
              Title="OrdersSearchPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Coming soon!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+	<Grid
+		Padding="5"
+		ColumnSpacing="5"
+		ColumnDefinitions="*,*"
+		RowDefinitions="Auto,Auto,Auto,*">
+		<Label 
+			Text="From"/>
+		<Label
+			Grid.Column="1"
+			Text="To"/>
+		<DatePicker
+			Grid.Row="1"
+			Date="{Binding FromDate}"/>
+		<DatePicker
+			Grid.Row="1"
+			Grid.Column="1"
+			Date="{Binding ToDate}"/>
+		<Entry
+			Grid.Row="2"
+			Placeholder="CustomerName"
+			Text="{Binding CustomerName}"/>
+		<Button
+			Grid.Row="2"
+			Grid.Column="1"
+			Text="Search"
+			Command="{Binding SearchCommand}"/>
+		<CollectionView
+			Grid.Row="3"
+			Grid.ColumnSpan="2"
+			ItemsSource="{Binding Orders}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate
+					x:DataType="models:OrderHeaderModel">
+					<Frame
+						Padding="0"
+						Margin="0,5">
+						<Grid
+							ColumnDefinitions="2*,*"
+							RowDefinitions="*,*"
+							Margin="5">
+							<Label
+							Text="{Binding CustomerName}"/>
+							<Label
+							Grid.Column="1"
+							Text="{Binding LinesCount, StringFormat='{0} Line(s)'}"/>
+							<Label
+							Grid.Row="1"
+							Text="{Binding OrderNo}"/>
+							<Label
+							Grid.Row="1"
+							Grid.Column="1"
+							Text="{Binding Total, StringFormat='Total={0:F2}'}"/>
+						</Grid>
+					</Frame>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+	</Grid>
 </ContentPage>

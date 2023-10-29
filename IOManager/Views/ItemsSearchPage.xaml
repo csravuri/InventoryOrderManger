@@ -71,16 +71,16 @@
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
 		</CollectionView>
-			<Button
-				Grid.Row="2"				
-				Text="Back"
-				IsVisible="{Binding IsFromOrderSelection}"
-				Command="{Binding BackCommand}"/>
-			<Button
-				Grid.Row="2"
-				Grid.Column="3"
-				Text="Done"
-				IsVisible="{Binding IsFromOrderSelection}"
-				Command="{Binding DoneCommand}"/>
+		<Button
+			Grid.Row="2"				
+			Text="Back"
+			IsVisible="{Binding IsFromOrderSelection}"
+			Command="{Binding BackCommand}"/>
+		<Button
+			Grid.Row="2"
+			Grid.Column="3"
+			Text="Done"
+			IsVisible="{Binding IsFromOrderSelection}"
+			Command="{Binding DoneCommand}"/>
 	</Grid>
 </ContentPage>
