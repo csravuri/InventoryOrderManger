@@ -24,7 +24,7 @@
 			ItemsSource="{Binding Items}">
 			<CollectionView.ItemTemplate>
 				<DataTemplate 
-					x:DataType="models:ItemModel">
+					x:DataType="viewModels:ItemViewModel">
 					<Frame Padding="0"
 						   Margin="0,5">
 						<Frame.GestureRecognizers>
@@ -37,21 +37,21 @@
 							ColumnDefinitions="*,*,*,Auto"
 							ColumnSpacing="10">
 							<Image 
-								Source="{Binding ImagePath}"
+								Source="{Binding Item.ImagePath}"
 								Grid.RowSpan="3"/>
 							<Label 
-								Text="{Binding ItemName}"
+								Text="{Binding Item.ItemName}"
 								FontAttributes="Bold"
 								FontSize="Body"
 								Grid.Column="1"
 								Grid.ColumnSpan="2"/>
 							<Label 
-								Text="{Binding WholeSalePrice, StringFormat='Whole: {0}'}"
+								Text="{Binding Item.WholeSalePrice, StringFormat='Whole: {0}'}"
 								FontSize="Body"
 								Grid.Row="1"
 								Grid.Column="1"/>
 							<Label 
-								Text="{Binding RetailSalePrice, StringFormat='Retail: {0}'}"
+								Text="{Binding Item.RetailSalePrice, StringFormat='Retail: {0}'}"
 								FontSize="Body"
 								Grid.Row="1"
 								Grid.Column="2"/>
@@ -61,7 +61,7 @@
 								IsChecked="{Binding IsSelected}"
 								IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ItemsSearchViewModel}}, Path=IsFromOrderSelection}"/>
 							<Label 
-								Text="{Binding Description}"
+								Text="{Binding Item.Description}"
 								FontSize="Body"
 								Grid.Row="2"
 								Grid.Column="1"

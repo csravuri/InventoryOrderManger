@@ -13,10 +13,10 @@ namespace IOManager.ViewModels
 		public ItemsSearchViewModel(DbConnection connection)
 		{
 			Connection = connection;
-			Items = new ObservableCollection<ItemModel>();
+			Items = new ObservableCollection<ItemViewModel>();
 		}
 
-		public ObservableCollection<ItemModel> Items { get; }
+		public ObservableCollection<ItemViewModel> Items { get; }
 
 		[ObservableProperty]
 		string title = ItemsSearchCaption;
@@ -39,7 +39,7 @@ namespace IOManager.ViewModels
 			var items = await AllItems;
 			foreach (var item in items.Where(IsItemNeeded))
 			{
-				Items.Add(item);
+				Items.Add(new ItemViewModel(item));
 			}
 		}
 
@@ -56,17 +56,11 @@ namespace IOManager.ViewModels
 		[RelayCommand]
 		async Task Selected(object obj)
 		{
-			if (obj is ItemModel model)
+			if (obj is ItemViewModel model)
 			{
 				if (IsFromOrderSelection)
 				{
 					model.IsSelected = !model.IsSelected;
-					var items = Items.ToArray();
-					Items.Clear();
-					foreach (var item in items)
-					{
-						Items.Add(item);
-					}
 					return;
 				}
 

@@ -56,7 +56,7 @@
 				</Grid>
 			</CollectionView.Header>
 			<CollectionView.ItemTemplate>
-				<DataTemplate x:DataType="viewModels:OrderLineCreateEditViewModel">
+				<DataTemplate x:DataType="viewModels:OrderLineViewModel">
 					<Grid
 						Padding="0,5"
 						ColumnSpacing="5"

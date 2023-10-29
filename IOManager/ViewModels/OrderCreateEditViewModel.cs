@@ -13,13 +13,13 @@ namespace IOManager.ViewModels
 		public OrderCreateEditViewModel(DbConnection connection)
 		{
 			Connection = connection;
-			Lines = new ObservableCollection<OrderLineCreateEditViewModel>();
+			Lines = new ObservableCollection<OrderLineViewModel>();
 		}
 
-		public ObservableCollection<OrderLineCreateEditViewModel> Lines { get; }
+		public ObservableCollection<OrderLineViewModel> Lines { get; }
 
 		[ObservableProperty]
-		string title;
+		string title = OrderCreateCaption;
 
 		[ObservableProperty]
 		string customerName;
@@ -128,14 +128,14 @@ namespace IOManager.ViewModels
 
 		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
 		{
-			if (query.TryGetValue(GlobalConstants.SelectedItems, out var value) && value is IEnumerable<ItemModel> selectedItems)
+			if (query.TryGetValue(GlobalConstants.SelectedItems, out var value) && value is IEnumerable<ItemViewModel> selectedItems)
 			{
-				foreach (var item in selectedItems)
+				foreach (var itemViewModel in selectedItems)
 				{
-					Lines.Add(new OrderLineCreateEditViewModel(OnLineQtyChanged, item)
+					Lines.Add(new OrderLineViewModel(OnLineQtyChanged, itemViewModel.Item)
 					{
-						ItemName = item.ItemName,
-						Price = IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice,
+						ItemName = itemViewModel.Item.ItemName,
+						Price = IsWholeSale ? itemViewModel.Item.WholeSalePrice : itemViewModel.Item.RetailSalePrice,
 						Qty = 1
 					});
 				}
@@ -144,7 +144,7 @@ namespace IOManager.ViewModels
 			}
 		}
 
-		void OnLineQtyChanged(OrderLineCreateEditViewModel line)
+		void OnLineQtyChanged(OrderLineViewModel line)
 		{
 			if (line.Qty == default)
 			{

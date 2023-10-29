@@ -4,11 +4,11 @@ using IOManager.Models;
 
 namespace IOManager.ViewModels
 {
-	public partial class OrderLineCreateEditViewModel : ObservableObject
+	public partial class OrderLineViewModel : ObservableObject
 	{
-		readonly Action<OrderLineCreateEditViewModel> qtyChangeAction;
+		readonly Action<OrderLineViewModel> qtyChangeAction;
 
-		public OrderLineCreateEditViewModel(Action<OrderLineCreateEditViewModel> qtyChangeAction, ItemModel item)
+		public OrderLineViewModel(Action<OrderLineViewModel> qtyChangeAction, ItemModel item)
 		{
 			this.qtyChangeAction = qtyChangeAction;
 			Item = item;
