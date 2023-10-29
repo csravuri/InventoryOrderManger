@@ -39,24 +39,57 @@
 			ItemsSource="{Binding Lines}">
 			<CollectionView.Header>
 				<Grid
-					ColumnDefinitions="*,*,*,*">
+					ColumnDefinitions="3.5*,2.2*,.7*,*">
 					<Label
 						Text="Name"/>
 					<Label
 						Grid.Column="1"
-						Text="Qty"/>
+						Text="Qty"
+						HorizontalOptions="Center"/>
 					<Label
 						Grid.Column="2"
 						Text="Price"/>
 					<Label
 						Grid.Column="3"
+						HorizontalTextAlignment="End"
 						Text="Total"/>
 				</Grid>
 			</CollectionView.Header>
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="models:OrderLineModel">
-					<Grid>
-						<Label Text="{Binding ItemName}"/>
+					<Grid
+						Padding="0,5"
+						ColumnSpacing="5"
+						ColumnDefinitions="3.5*,.8*,.6*,.8*,.7*,*">
+						<Label 
+							Text="{Binding ItemName}"
+							VerticalTextAlignment="Center"/>
+						<Button
+							Grid.Column="1"
+							Padding="0"
+							BackgroundColor="Red"
+							TextColor="Black"
+							FontSize="Title"
+							Text="-"/>
+						<Entry
+							Grid.Column="2"
+							Text="{Binding Qty}"/>
+						<Button
+							Grid.Column="3"
+							Padding="0"
+							BackgroundColor="Green"
+							TextColor="Black"
+							FontSize="Title"
+							Text="+"/>
+						<Entry
+							Grid.Column="4"
+							Text="{Binding Price}"/>
+						<Label 
+							Grid.Column="5"
+							Text="{Binding Total}"
+						HorizontalTextAlignment="End"
+							VerticalTextAlignment="Center"/>
+						
 					</Grid>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
