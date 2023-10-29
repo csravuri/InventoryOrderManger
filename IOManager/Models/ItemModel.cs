@@ -5,8 +5,8 @@ namespace IOManager.Models
 	[Table("Item")]
 	public class ItemModel
 	{
-		[PrimaryKey, AutoIncrement]
-		public int Id { get; set; }
+		[PrimaryKey]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		[MaxLength(100), Unique]
 		public string ItemName { get; set; }

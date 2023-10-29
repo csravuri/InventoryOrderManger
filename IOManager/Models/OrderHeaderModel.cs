@@ -5,8 +5,8 @@ namespace IOManager.Models
 	[Table("OrderHeader")]
 	public class OrderHeaderModel
 	{
-		[PrimaryKey, AutoIncrement]
-		public int Id { get; set; }
+		[PrimaryKey]
+		public Guid Id { get; set; } = Guid.NewGuid();
 
 		public string OrderNo { get; set; }
 

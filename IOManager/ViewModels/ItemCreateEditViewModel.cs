@@ -98,7 +98,6 @@ namespace IOManager.ViewModels
 			}
 			catch (Exception ex)
 			{
-
 				await Shell.Current.DisplayAlert("Error!", ex.Message, "Ok");
 				return false;
 			}
@@ -237,6 +236,6 @@ namespace IOManager.ViewModels
 
 		DbConnection Connection { get; }
 		readonly string ImagesSubFolderPath = Path.Combine(GlobalConstants.RootFolder, ImagesSubFolder);
-		int modelId;
+		Guid modelId;
 	}
 }

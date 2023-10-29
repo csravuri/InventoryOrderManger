@@ -5,7 +5,7 @@ namespace IOManager.Models
 	[Table("OrderLine")]
 	public class OrderLineModel
 	{
-		public int OrderId { get; set; }
+		public Guid OrderId { get; set; }
 
 		public string ItemName { get; set; }
 
