@@ -5,7 +5,7 @@
 			 xmlns:viewModels="clr-namespace:IOManager.ViewModels"
 			 xmlns:models="clr-namespace:IOManager.Models"
 			 x:DataType="viewModels:OrderCreateEditViewModel"
-             Title="OrderCreateEditPage">
+             Title="{Binding Title}">
 	<Grid
 		ColumnDefinitions="*,*,*,*"
 		RowDefinitions="*,*,15*,Auto,Auto"

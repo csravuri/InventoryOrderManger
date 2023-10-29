@@ -17,7 +17,7 @@ namespace IOManager.ViewModels
 		public ObservableCollection<OrderHeaderModel> Orders { get; }
 
 		[ObservableProperty]
-		string title;
+		string title = OrdersSearchCaption;
 
 		[ObservableProperty]
 		string customerName;
@@ -46,5 +46,7 @@ namespace IOManager.ViewModels
 		}
 
 		DbConnection Connection { get; }
+
+		const string OrdersSearchCaption = "Orders Search";
 	}
 }

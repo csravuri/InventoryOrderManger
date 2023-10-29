@@ -19,7 +19,7 @@ namespace IOManager.ViewModels
 		public ObservableCollection<ItemModel> Items { get; }
 
 		[ObservableProperty]
-		string title = "Items Search";
+		string title = ItemsSearchCaption;
 
 		[ObservableProperty]
 		string searchText;
@@ -106,7 +106,12 @@ namespace IOManager.ViewModels
 			if (query.TryGetValue(GlobalConstants.ItemSelect, out var value) && value is bool isForItemSelect && isForItemSelect)
 			{
 				IsFromOrderSelection = true;
+				Title = ItemsSelectCaption;
+
 			}
 		}
+
+		const string ItemsSearchCaption = "Items Search";
+		const string ItemsSelectCaption = "Items Select";
 	}
 }

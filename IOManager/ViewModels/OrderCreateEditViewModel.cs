@@ -19,6 +19,9 @@ namespace IOManager.ViewModels
 		public ObservableCollection<OrderLineCreateEditViewModel> Lines { get; }
 
 		[ObservableProperty]
+		string title;
+
+		[ObservableProperty]
 		string customerName;
 
 		[ObservableProperty]
@@ -148,5 +151,8 @@ namespace IOManager.ViewModels
 		}
 
 		DbConnection Connection { get; }
+
+		const string OrderCreateCaption = "Order Create";
+		const string OrderUpdateCaption = "Order Update";
 	}
 }
