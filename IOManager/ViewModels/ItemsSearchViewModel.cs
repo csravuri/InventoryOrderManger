@@ -58,12 +58,23 @@ namespace IOManager.ViewModels
 		{
 			if (obj is ItemModel model)
 			{
+				if (IsFromOrderSelection)
+				{
+					model.IsSelected = !model.IsSelected;
+					var items = Items.ToArray();
+					Items.Clear();
+					foreach (var item in items)
+					{
+						Items.Add(item);
+					}
+					return;
+				}
+
 				var updateItemParameterDict = new Dictionary<string, object>()
 				{
 					{ GlobalConstants.ItemUpdate, model },
 				};
 				await Shell.Current.GoToAsync($"./{nameof(ItemCreateEditPage)}", updateItemParameterDict);
-
 			}
 		}
 
@@ -107,7 +118,6 @@ namespace IOManager.ViewModels
 			{
 				IsFromOrderSelection = true;
 				Title = ItemsSelectCaption;
-
 			}
 		}
 
