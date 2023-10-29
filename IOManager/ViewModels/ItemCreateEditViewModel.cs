@@ -71,7 +71,7 @@ namespace IOManager.ViewModels
 				{
 					ItemName = ItemName,
 					WholeSalePrice = WholeSalePrice ?? RetailSalePrice ?? 0m,
-					RetailSalePrice = RetailSalePrice,
+					RetailSalePrice = RetailSalePrice ?? WholeSalePrice ?? 0m,
 					PurchasePrice = PurchasePrice,
 					StockQuantity = StockQuantity,
 					Description = Description,

@@ -13,7 +13,7 @@ namespace IOManager.Models
 
 		public decimal WholeSalePrice { get; set; }
 
-		public decimal? RetailSalePrice { get; set; }
+		public decimal RetailSalePrice { get; set; }
 
 		public decimal? PurchasePrice { get; set; }
 

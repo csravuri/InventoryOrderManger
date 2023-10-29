@@ -27,6 +27,14 @@ namespace IOManager.ViewModels
 		[ObservableProperty]
 		bool isWholeSale = true;
 
+		partial void OnIsWholeSaleChanged(bool value)
+		{
+			foreach (var line in Lines)
+			{
+				line.Price = IsWholeSale ? line.Item.WholeSalePrice : line.Item.RetailSalePrice;
+			}
+		}
+
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(IsTotalVisible))]
 		decimal total;
@@ -124,10 +132,10 @@ namespace IOManager.ViewModels
 			{
 				foreach (var item in selectedItems)
 				{
-					Lines.Add(new OrderLineCreateEditViewModel(OnLineQtyChanged)
+					Lines.Add(new OrderLineCreateEditViewModel(OnLineQtyChanged, item)
 					{
 						ItemName = item.ItemName,
-						Price = IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice ?? 0m,
+						Price = IsWholeSale ? item.WholeSalePrice : item.RetailSalePrice,
 						Qty = 1
 					});
 				}

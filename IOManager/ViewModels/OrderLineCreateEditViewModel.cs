@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IOManager.Models;
 
 namespace IOManager.ViewModels
 {
@@ -7,10 +8,12 @@ namespace IOManager.ViewModels
 	{
 		readonly Action<OrderLineCreateEditViewModel> qtyChangeAction;
 
-		public OrderLineCreateEditViewModel(Action<OrderLineCreateEditViewModel> qtyChangeAction)
+		public OrderLineCreateEditViewModel(Action<OrderLineCreateEditViewModel> qtyChangeAction, ItemModel item)
 		{
 			this.qtyChangeAction = qtyChangeAction;
+			Item = item;
 		}
+
 		public string ItemName { get; set; }
 
 		[ObservableProperty]
@@ -22,6 +25,8 @@ namespace IOManager.ViewModels
 		decimal price;
 
 		public decimal Total => Price * Qty;
+
+		public ItemModel Item { get; }
 
 		[RelayCommand]
 		void QtyDec()
