@@ -103,7 +103,7 @@ namespace IOManager.ViewModels
 		bool IsItemNeeded(ItemModel item)
 		{
 			return string.IsNullOrEmpty(SearchText)
-				|| SearchText.Split(" ").Where(x => !string.IsNullOrEmpty(x)).Any(item.ItemName.Contains);
+				|| SearchText.Split(" ").Where(x => !string.IsNullOrEmpty(x)).Any(x => item.ItemName.Contains(x, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
