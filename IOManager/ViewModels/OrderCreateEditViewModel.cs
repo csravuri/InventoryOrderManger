@@ -60,6 +60,7 @@ namespace IOManager.ViewModels
 		{
 			CustomerName = null;
 			IsWholeSale = true;
+			Total = 0m;
 			Lines.Clear();
 		}
 
