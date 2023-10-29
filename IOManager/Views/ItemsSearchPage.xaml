@@ -46,12 +46,12 @@
 								Grid.Column="1"
 								Grid.ColumnSpan="2"/>
 							<Label 
-								Text="{Binding WholeSalePrice}"
+								Text="{Binding WholeSalePrice, StringFormat='Whole: {0}'}"
 								FontSize="Body"
 								Grid.Row="1"
 								Grid.Column="1"/>
 							<Label 
-								Text="{Binding RetailSalePrice}"
+								Text="{Binding RetailSalePrice, StringFormat='Retail: {0}'}"
 								FontSize="Body"
 								Grid.Row="1"
 								Grid.Column="2"/>
