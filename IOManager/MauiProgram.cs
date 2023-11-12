@@ -31,12 +31,15 @@ public static class MauiProgram
 		builder.Services.AddTransient<OrdersSearchPage>();
 		builder.Services.AddTransient<BackupPage>();
 		builder.Services.AddTransient<RestorePage>();
+		builder.Services.AddTransient<CustomerCreateEditPage>();
+		builder.Services.AddTransient<CustomerSearchPage>();
 
 		builder.Services.AddTransient<ItemCreateEditViewModel>();
 		builder.Services.AddTransient<ItemsSearchViewModel>();
 		builder.Services.AddTransient<OrderCreateEditViewModel>();
 		builder.Services.AddTransient<OrdersSearchViewModel>();
 		builder.Services.AddTransient<BackupViewModel>();
+		builder.Services.AddTransient<RestoreViewModel>();
 		builder.Services.AddTransient<RestoreViewModel>();
 
 		builder.Services.AddSingleton<DbConnection>();

@@ -7,7 +7,7 @@
 			 x:DataType="viewModels:HomeViewModel">
 
 	<Grid ColumnDefinitions="*,*"
-		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, 6*"
+		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, .7*, 2*, 3*"
 		  ColumnSpacing="50"
 		  RowSpacing="10"
 		  Padding="20">
@@ -42,20 +42,36 @@
 				Grid.Row="3"
 				Grid.Column="1"/>
 
-		<Label Text="Config"
+		<Label Text="Customer"
 			   VerticalOptions="Center"
 			   HorizontalOptions="CenterAndExpand"
 			   FontSize="Large"
 			   Grid.Row="4"
 			   Grid.ColumnSpan="2"/>
+		<Button Text="Create"
+				FontSize="Large"
+				Command="{Binding CustomerCreateCommand}"
+				Grid.Row="5"/>
+		<Button Text="View"
+				FontSize="Large"
+				Command="{Binding CustomerViewCommand}"
+				Grid.Row="5"
+				Grid.Column="1"/>
+
+		<Label Text="Config"
+			   VerticalOptions="Center"
+			   HorizontalOptions="CenterAndExpand"
+			   FontSize="Large"
+			   Grid.Row="6"
+			   Grid.ColumnSpan="2"/>
 		<Button Text="Backup"
 				FontSize="Large"
 				Command="{Binding BackupCommand}"
-				Grid.Row="5"/>
+				Grid.Row="7"/>
 		<Button Text="Restore"
 				FontSize="Large"
 				Command="{Binding RestoreCommand}"
-				Grid.Row="5"
+				Grid.Row="7"
 				Grid.Column="1"/>
 	</Grid>
 	

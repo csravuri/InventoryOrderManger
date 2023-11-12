@@ -34,6 +34,18 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
+		async Task CustomerCreate()
+		{
+			await Shell.Current.GoToAsync($"{nameof(CustomerCreateEditPage)}");
+		}
+
+		[RelayCommand]
+		async Task CustomerView()
+		{
+			await Shell.Current.GoToAsync($"{nameof(CustomerSearchPage)}");
+		}
+
+		[RelayCommand]
 		async Task Backup()
 		{
 			await Shell.Current.GoToAsync($"{nameof(BackupPage)}");
