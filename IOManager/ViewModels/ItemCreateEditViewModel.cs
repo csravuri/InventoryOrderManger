@@ -208,16 +208,17 @@ namespace IOManager.ViewModels
 			{
 				ItemName = itemSearchText;
 			}
-			else if (query.TryGetValue(GlobalConstants.ItemUpdate, out var modelValue) && modelValue is ItemModel model)
+			else if (query.TryGetValue(GlobalConstants.ItemUpdate, out var modelValue) && modelValue is ItemViewModel viewModel)
 			{
-				ItemName = model.ItemName;
-				WholeSalePrice = model.WholeSalePrice;
-				RetailSalePrice = model.RetailSalePrice;
-				PurchasePrice = model.PurchasePrice;
-				StockQuantity = model.StockQuantity;
-				Description = model.Description;
-				ImagePath = model.ImagePath;
-				modelId = model.Id;
+				var item = viewModel.Item;
+				ItemName = item.ItemName;
+				WholeSalePrice = item.WholeSalePrice;
+				RetailSalePrice = item.RetailSalePrice;
+				PurchasePrice = item.PurchasePrice;
+				StockQuantity = item.StockQuantity;
+				Description = item.Description;
+				ImagePath = item.ImagePath;
+				modelId = item.Id;
 
 				Title = UpdateItemCaption;
 				IsCreate = false;
