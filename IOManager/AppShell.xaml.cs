@@ -16,5 +16,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(RestorePage), typeof(RestorePage));
 		Routing.RegisterRoute(nameof(CustomerCreateEditPage), typeof(CustomerCreateEditPage));
 		Routing.RegisterRoute(nameof(CustomerSearchPage), typeof(CustomerSearchPage));
+		Routing.RegisterRoute(nameof(OfflineSyncPage), typeof(OfflineSyncPage));
 	}
 }

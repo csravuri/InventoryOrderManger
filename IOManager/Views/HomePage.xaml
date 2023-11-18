@@ -7,7 +7,7 @@
 			 x:DataType="viewModels:HomeViewModel">
 
 	<Grid ColumnDefinitions="*,*"
-		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, .7*, 2*, 3*"
+		  RowDefinitions=".7*, 2*, .7*, 2*, .7*, 2*, .7*, 2*, 2*, 2*"
 		  ColumnSpacing="50"
 		  RowSpacing="10"
 		  Padding="20">
@@ -73,6 +73,10 @@
 				Command="{Binding RestoreCommand}"
 				Grid.Row="7"
 				Grid.Column="1"/>
+		<Button Text="Offline Sync"
+				FontSize="Large"
+				Command="{Binding OfflineSyncCommand}"
+				Grid.Row="8"/>
 	</Grid>
 	
 </ContentPage>

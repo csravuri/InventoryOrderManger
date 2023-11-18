@@ -33,6 +33,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<RestorePage>();
 		builder.Services.AddTransient<CustomerCreateEditPage>();
 		builder.Services.AddTransient<CustomerSearchPage>();
+		builder.Services.AddTransient<OfflineSyncPage>();
 
 		builder.Services.AddTransient<ItemCreateEditViewModel>();
 		builder.Services.AddTransient<ItemsSearchViewModel>();
