@@ -41,7 +41,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<OrdersSearchViewModel>();
 		builder.Services.AddTransient<BackupViewModel>();
 		builder.Services.AddTransient<RestoreViewModel>();
-		builder.Services.AddTransient<RestoreViewModel>();
+		builder.Services.AddTransient<OfflineSyncViewModel>();
 
 		builder.Services.AddSingleton<DbConnection>();
 

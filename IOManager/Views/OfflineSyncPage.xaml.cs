@@ -1,9 +1,12 @@
+using IOManager.ViewModels;
+
 namespace IOManager.Views;
 
 public partial class OfflineSyncPage : ContentPage
 {
-	public OfflineSyncPage()
+	public OfflineSyncPage(OfflineSyncViewModel vm)
 	{
 		InitializeComponent();
+		BindingContext = vm;
 	}
 }
