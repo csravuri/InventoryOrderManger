@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.OfflineSyncPage"
 			 xmlns:viewModel="clr-namespace:IOManager.ViewModels"
+			 xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
 			 x:DataType="viewModel:OfflineSyncViewModel"
              Title="OfflineSyncPage">
 	<Grid
 		Padding="5"
 		RowSpacing="5"
 		ColumnSpacing="5"
-		RowDefinitions="Auto,Auto,Auto"
+		RowDefinitions="Auto,50,Auto,50"
 		ColumnDefinitions="*,*">
 		
 		<Button
@@ -28,22 +29,29 @@
 			Grid.Row="2"
 			Grid.ColumnSpan="2">
 			<CarouselView 
+				Loop="False"
 				IndicatorView="indicator"
 				ItemsSource="{Binding QrCodeStrigs}">
 				<CarouselView.ItemTemplate>
 					<DataTemplate>
-						<VerticalStackLayout>
-							<Image Source="{Binding .}"
-								   HeightRequest="300"/>
-						</VerticalStackLayout>
+						<zxing:BarcodeGeneratorView
+							HeightRequest="300"
+							WidthRequest="300"
+							Value="{Binding .}"
+							Format="QrCode"
+							Margin="13" />
 					</DataTemplate>
 				</CarouselView.ItemTemplate>
 			</CarouselView>
-			<IndicatorView 
-				x:Name="indicator"
-				HorizontalOptions="Center"/>
+			
 		</VerticalStackLayout>
-		
+
+		<IndicatorView
+			Grid.Row="3"
+			Grid.ColumnSpan="2"
+			x:Name="indicator"
+			HorizontalOptions="Center"/>
+
 
 	</Grid>
 </ContentPage>

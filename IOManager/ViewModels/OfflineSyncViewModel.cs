@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IOManager.Database;
 using IOManager.Models;
-using QRCoder;
 
 namespace IOManager.ViewModels
 {
@@ -34,7 +33,7 @@ namespace IOManager.ViewModels
 			var jsonbytes = JsonSerializer.SerializeToUtf8Bytes(items);
 			var base64String = Convert.ToBase64String(jsonbytes);
 
-			await ChunkDataAndShowQrCodes(base64String);
+			ChunkDataAndShowQrCodes(base64String);
 		}
 
 		[RelayCommand]
@@ -59,7 +58,7 @@ namespace IOManager.ViewModels
 			await Shell.Current.DisplayAlert("Important", "Show what is already present", "Ready");
 			var existingDataBase64 = await GetExistingDataIds();
 
-			await ChunkDataAndShowQrCodes(existingDataBase64);
+			ChunkDataAndShowQrCodes(existingDataBase64);
 
 		}
 
@@ -101,10 +100,10 @@ namespace IOManager.ViewModels
 			return Convert.ToBase64String(jsonbytes);
 		}
 
-		async Task ChunkDataAndShowQrCodes(string base64String)
+		void ChunkDataAndShowQrCodes(string base64String)
 		{
 			QrCodeStrigs.Clear();
-			const int eachQrMaxLength = 2000;
+			const int eachQrMaxLength = 100;
 			int indx = 1;
 			var chunks = base64String.Chunk(eachQrMaxLength);
 			foreach (var item in chunks.Select(x => new string(x)))
@@ -115,21 +114,21 @@ namespace IOManager.ViewModels
 					DataText = item,
 					Count = chunks.Count()
 				};
-				QrCodeStrigs.Add(await GetQrCodeImage(JsonSerializer.Serialize(qrData)));
+				QrCodeStrigs.Add(JsonSerializer.Serialize(qrData));
 			}
 		}
 
-		async Task<string> GetQrCodeImage(string text)
-		{
-			var qrGenerator = new QRCodeGenerator();
-			var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.L);
+		//async Task<string> GetQrCodeImage(string text)
+		//{
+		//	var qrGenerator = new QRCodeGenerator();
+		//	var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.L);
 
-			var qrCode = new PngByteQRCode(qrCodeData);
-			var qrCodeImage = qrCode.GetGraphic(20, false);
-			var imagePath = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid()}.png");
-			await File.WriteAllBytesAsync(imagePath, qrCodeImage);
-			return imagePath;
-		}
+		//	var qrCode = new PngByteQRCode(qrCodeData);
+		//	var qrCodeImage = qrCode.GetGraphic(20, false);
+		//	var imagePath = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid()}.png");
+		//	await File.WriteAllBytesAsync(imagePath, qrCodeImage);
+		//	return imagePath;
+		//}
 	}
 
 	public class QrCodeData
