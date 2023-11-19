@@ -24,19 +24,25 @@
 			Grid.ColumnSpan="2"
 			Text="{Binding Status}"/>
 
-		<CarouselView 
+		<VerticalStackLayout
 			Grid.Row="2"
-			Grid.ColumnSpan="2"
+			Grid.ColumnSpan="2">
+			<CarouselView 
+				IndicatorView="indicator"
 			ItemsSource="{Binding QrCodeStrigs}">
-			<CarouselView.ItemTemplate>
-				<DataTemplate>
-					<Label Text="{Binding .}">
-						
-					</Label>
-				</DataTemplate>
-			</CarouselView.ItemTemplate>
-		</CarouselView>
-		<IndicatorView></IndicatorView>
+				<CarouselView.ItemTemplate>
+					<DataTemplate>
+						<VerticalStackLayout>
+							<Label Text="{Binding .}"/>
+						</VerticalStackLayout>
+					</DataTemplate>
+				</CarouselView.ItemTemplate>
+			</CarouselView>
+			<IndicatorView 
+				x:Name="indicator"
+				HorizontalOptions="Center"/>
+		</VerticalStackLayout>
+		
 
 	</Grid>
 </ContentPage>
