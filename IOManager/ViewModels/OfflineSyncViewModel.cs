@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -26,21 +27,81 @@ namespace IOManager.ViewModels
 		[RelayCommand]
 		async Task Send()
 		{
+			await FindWhatIsAlreadyPresentInReceiver();
+
 			var items = await Connection.GetAll<ItemModel>(x => true);
 
 			var jsonbytes = JsonSerializer.SerializeToUtf8Bytes(items);
 			var base64String = Convert.ToBase64String(jsonbytes);
 
-			await ChunkDataAndAddQrCodes(base64String);
+			await ChunkDataAndShowQrCodes(base64String);
 		}
 
 		[RelayCommand]
-		void Receive()
+		async Task Receive()
 		{
-			Status = "Receive";
+			Status = "Receiving";
+			await ShowWhatIsAlreadyPresentToSender();
+
+
 		}
 
-		async Task ChunkDataAndAddQrCodes(string base64String)
+		async Task FindWhatIsAlreadyPresentInReceiver()
+		{
+			await Shell.Current.DisplayAlert("Important", "Open Receiver device and click Receive, and scan with sender device", "Ready");
+
+			//var qrData = "{"Index":1,"DataText":"W3siTmFtZSI6Ikl0ZW1Nb2RlbCIsIkRhdGEiOiJZMkkxWlRJd09XWXRNalk1TUMwMFpEYzRMVGcwTm1RdE5HRXlNMkU1TXpreE1UYzRMR1V5WmpJMFkyVmxMVFkxT1dRdE5ERTNZeTFpTWpFeExUaGpPREkzTURVd1pHSmlaQT09In1d","Count":1}";
+
+		}
+
+		async Task ShowWhatIsAlreadyPresentToSender()
+		{
+			await Shell.Current.DisplayAlert("Important", "Show what is already present", "Ready");
+			var existingDataBase64 = await GetExistingDataIds();
+
+			await ChunkDataAndShowQrCodes(existingDataBase64);
+
+		}
+
+		async Task<string> GetExistingDataIds()
+		{
+			var data = new List<ModelData>();
+
+			var items = await Connection.GetAll<ItemModel>(x => true);
+			if (items.Count > 0)
+			{
+				var itemIds = string.Join(",", items.Select(x => x.Id));
+
+				data.Add(new ModelData
+				{
+					Name = nameof(ItemModel),
+					Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(itemIds))
+				});
+			}
+
+			var orders = await Connection.GetAll<OrderHeaderModel>(x => true);
+			if (orders.Count > 0)
+			{
+				var orderIds = string.Join(",", orders.Select(x => x.Id));
+
+				data.Add(new ModelData
+				{
+					Name = nameof(OrderHeaderModel),
+					Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(orderIds))
+				});
+			}
+
+			if (data.Count == 0)
+			{
+				Status = "Nothing here Start receiving";
+				return string.Empty;
+			}
+
+			var jsonbytes = JsonSerializer.SerializeToUtf8Bytes(data);
+			return Convert.ToBase64String(jsonbytes);
+		}
+
+		async Task ChunkDataAndShowQrCodes(string base64String)
 		{
 			QrCodeStrigs.Clear();
 			const int eachQrMaxLength = 2000;
@@ -76,5 +137,11 @@ namespace IOManager.ViewModels
 		public int Index { get; set; }
 		public string DataText { get; set; }
 		public int Count { get; set; }
+	}
+
+	public class ModelData
+	{
+		public string Name { get; set; }
+		public string Data { get; set; }
 	}
 }
