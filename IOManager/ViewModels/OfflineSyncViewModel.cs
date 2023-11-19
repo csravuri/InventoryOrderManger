@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IOManager.Database;
 using IOManager.Models;
+using QRCoder;
 
 namespace IOManager.ViewModels
 {
@@ -25,13 +26,24 @@ namespace IOManager.ViewModels
 		[RelayCommand]
 		async Task Send()
 		{
-			QrCodeStrigs.Clear();
 			var items = await Connection.GetAll<ItemModel>(x => true);
 
 			var jsonbytes = JsonSerializer.SerializeToUtf8Bytes(items);
 			var base64String = Convert.ToBase64String(jsonbytes);
 
-			const int eachQrMaxLength = 100;
+			await ChunkDataAndAddQrCodes(base64String);
+		}
+
+		[RelayCommand]
+		void Receive()
+		{
+			Status = "Receive";
+		}
+
+		async Task ChunkDataAndAddQrCodes(string base64String)
+		{
+			QrCodeStrigs.Clear();
+			const int eachQrMaxLength = 2000;
 			int indx = 1;
 			var chunks = base64String.Chunk(eachQrMaxLength);
 			foreach (var item in chunks.Select(x => new string(x)))
@@ -42,14 +54,20 @@ namespace IOManager.ViewModels
 					DataText = item,
 					Count = chunks.Count()
 				};
-				QrCodeStrigs.Add(JsonSerializer.Serialize(qrData));
+				QrCodeStrigs.Add(await GetQrCodeImage(JsonSerializer.Serialize(qrData)));
 			}
 		}
 
-		[RelayCommand]
-		void Receive()
+		async Task<string> GetQrCodeImage(string text)
 		{
-			Status = "Receive";
+			var qrGenerator = new QRCodeGenerator();
+			var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.L);
+
+			var qrCode = new PngByteQRCode(qrCodeData);
+			var qrCodeImage = qrCode.GetGraphic(20, false);
+			var imagePath = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid()}.png");
+			await File.WriteAllBytesAsync(imagePath, qrCodeImage);
+			return imagePath;
 		}
 	}
 

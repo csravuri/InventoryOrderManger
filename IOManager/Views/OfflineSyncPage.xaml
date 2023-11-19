@@ -9,7 +9,7 @@
 		Padding="5"
 		RowSpacing="5"
 		ColumnSpacing="5"
-		RowDefinitions="Auto,*,*"
+		RowDefinitions="Auto,Auto,Auto"
 		ColumnDefinitions="*,*">
 		
 		<Button
@@ -29,11 +29,12 @@
 			Grid.ColumnSpan="2">
 			<CarouselView 
 				IndicatorView="indicator"
-			ItemsSource="{Binding QrCodeStrigs}">
+				ItemsSource="{Binding QrCodeStrigs}">
 				<CarouselView.ItemTemplate>
 					<DataTemplate>
 						<VerticalStackLayout>
-							<Label Text="{Binding .}"/>
+							<Image Source="{Binding .}"
+								   HeightRequest="300"/>
 						</VerticalStackLayout>
 					</DataTemplate>
 				</CarouselView.ItemTemplate>
