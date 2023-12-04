@@ -27,6 +27,9 @@ namespace IOManager.ViewModels
 		[ObservableProperty]
 		bool isWholeSale = true;
 
+		[ObservableProperty]
+		bool isNewEntryEveryItem = false;
+
 		partial void OnIsWholeSaleChanged(bool value)
 		{
 			foreach (var line in Lines)
@@ -58,6 +61,12 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
+		void IsNewEntryEveryItemTapped()
+		{
+			IsNewEntryEveryItem = !IsNewEntryEveryItem;
+		}
+
+		[RelayCommand]
 		async Task Back()
 		{
 			await Shell.Current.GoToAsync("..");
@@ -68,6 +77,7 @@ namespace IOManager.ViewModels
 		{
 			CustomerName = null;
 			IsWholeSale = true;
+			IsNewEntryEveryItem = false;
 			Total = 0m;
 			Lines.Clear();
 		}
@@ -132,12 +142,23 @@ namespace IOManager.ViewModels
 			{
 				foreach (var itemViewModel in selectedItems)
 				{
-					Lines.Add(new OrderLineViewModel(OnLineQtyChanged, itemViewModel.Item)
+
+					var newItem = itemViewModel.Item;
+					var newItemPrice = IsWholeSale ? newItem.WholeSalePrice : newItem.RetailSalePrice;
+					var existingItem = Lines.FirstOrDefault(x => x.Item.Id == newItem.Id && x.Price == newItemPrice);
+					if (!IsNewEntryEveryItem && existingItem != null)
 					{
-						ItemName = itemViewModel.Item.ItemName,
-						Price = IsWholeSale ? itemViewModel.Item.WholeSalePrice : itemViewModel.Item.RetailSalePrice,
-						Qty = 1
-					});
+						existingItem.Qty++;
+					}
+					else
+					{
+						Lines.Add(new OrderLineViewModel(OnLineQtyChanged, newItem)
+						{
+							ItemName = newItem.ItemName,
+							Price = newItemPrice,
+							Qty = 1
+						});
+					}
 				}
 
 				UpdateTotal();

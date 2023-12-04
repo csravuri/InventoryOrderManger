@@ -32,6 +32,19 @@
 				</Label.GestureRecognizers>
 			</Label>
 		</HorizontalStackLayout>
+		
+		<HorizontalStackLayout
+			Grid.Row="1"
+			Grid.Column="2">
+			<CheckBox IsChecked="{Binding IsNewEntryEveryItem}"/>
+			<Label
+				Text="New Entry Every Item"
+				VerticalTextAlignment="Center">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding IsNewEntryEveryItemTappedCommand}"/>
+				</Label.GestureRecognizers>
+			</Label>
+		</HorizontalStackLayout>
 
 		<CollectionView
 			Grid.Row="2"
