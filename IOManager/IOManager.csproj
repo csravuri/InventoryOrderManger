@@ -15,7 +15,7 @@
 		<ApplicationTitle>IO Manager</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>in.csravuri.iomanager</ApplicationId>
+		<ApplicationId>com.csravuri.iomanager</ApplicationId>
 		<ApplicationIdGuid>1823e82d-8069-4710-b100-76132c1f0ad5</ApplicationIdGuid>
 
 		<!-- Versions -->
