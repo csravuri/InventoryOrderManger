@@ -30,15 +30,15 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
-		void LocalShare()
+		async Task LocalShare()
 		{
 			if (!File.Exists(ZipFilePath))
 			{
-				Shell.Current.DisplayAlert("Error!", "Create backup before share", "Ok");
+				await Shell.Current.DisplayAlert("Error!", "Create backup before share", "Ok");
 				return;
 			}
 
-			Share.Default.RequestAsync(new ShareFileRequest
+			await Share.Default.RequestAsync(new ShareFileRequest
 			{
 				File = new ShareFile(ZipFilePath),
 				Title = "Share or save file"
@@ -46,8 +46,9 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
-		void CloudShare()
+		async Task CloudShare()
 		{
+			await Shell.Current.DisplayAlert("Information!", "Coming soon", "Ok");
 		}
 
 		[RelayCommand]
@@ -77,5 +78,6 @@ namespace IOManager.ViewModels
 		}
 
 		public DbConnection Connection { get; }
+		//const string UploadAlert = "We use online file upload service https://gofile.io/welcome as a storage location to move your data from one device to other. Please read more about how they handle your data. Click Ok if agree.";
 	}
 }
