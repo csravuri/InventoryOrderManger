@@ -8,7 +8,7 @@
              Title="{Binding Title}">
 	<Grid
 		ColumnDefinitions="*,*,*,*"
-		RowDefinitions="*,*,15*,Auto,Auto"
+		RowDefinitions="Auto,Auto,*,Auto,Auto"
 		ColumnSpacing="5"
 		Margin="5">
 		<Entry 
