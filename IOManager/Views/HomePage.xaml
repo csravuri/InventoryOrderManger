@@ -73,10 +73,6 @@
 				Command="{Binding RestoreCommand}"
 				Grid.Row="7"
 				Grid.Column="1"/>
-		<Button Text="Offline Sync"
-				FontSize="Large"
-				Command="{Binding OfflineSyncCommand}"
-				Grid.Row="8"/>
 	</Grid>
 	
 </ContentPage>

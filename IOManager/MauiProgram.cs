@@ -33,7 +33,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<RestorePage>();
 		builder.Services.AddTransient<CustomerCreateEditPage>();
 		builder.Services.AddTransient<CustomerSearchPage>();
-		builder.Services.AddTransient<OfflineSyncPage>();
 
 		builder.Services.AddTransient<ItemCreateEditViewModel>();
 		builder.Services.AddTransient<ItemsSearchViewModel>();
@@ -41,7 +40,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<OrdersSearchViewModel>();
 		builder.Services.AddTransient<BackupViewModel>();
 		builder.Services.AddTransient<RestoreViewModel>();
-		builder.Services.AddTransient<OfflineSyncViewModel>();
 
 		builder.Services.AddSingleton<DbConnection>();
 

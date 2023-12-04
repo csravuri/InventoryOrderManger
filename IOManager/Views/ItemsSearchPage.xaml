@@ -37,7 +37,7 @@
 							ColumnDefinitions="*,*,*,Auto"
 							ColumnSpacing="10">
 							<Image 
-								Source="{Binding Item.ImagePath}"
+								Source="{Binding ImagePath}"
 								Grid.RowSpan="3"/>
 							<Label 
 								Text="{Binding Item.ItemName}"

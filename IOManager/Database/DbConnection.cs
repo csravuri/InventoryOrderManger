@@ -19,7 +19,7 @@ namespace IOManager.Database
 			await connection.InsertAllAsync(models);
 		}
 
-		public async Task<T> Get<T>(int id) where T : class, new()
+		public async Task<T> Get<T>(Guid id) where T : class, new()
 		{
 			await Init();
 			return await connection.GetAsync<T>(id); ;
