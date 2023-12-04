@@ -196,7 +196,7 @@ namespace IOManager.ViewModels
 			var extention = Path.GetExtension(sourcePath);
 			if (newFileFordestination)
 			{
-				fileName = Guid.NewGuid().ToString().Replace("-", "");
+				fileName = GlobalConstants.UniqueName;
 			}
 
 			return Path.Combine(ImagesSubFolderPath, fileName + extention);

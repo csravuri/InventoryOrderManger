@@ -12,6 +12,8 @@
 		public static string ImagesFolder => Path.Combine(RootFolder, ImagesSubFolder);
 		public const string DefaultItemImage = "default_image.png";
 		const string ImagesSubFolder = "Images";
+
+		public static string UniqueName => Guid.NewGuid().ToString().Replace("-", "");
 	}
 
 }

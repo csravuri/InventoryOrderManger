@@ -77,6 +77,11 @@
 				FontSize="Large"
 				Command="{Binding OfflineSyncCommand}"
 				Grid.Row="8"/>
+		<Button Text="Online Sync"
+				FontSize="Large"
+				Command="{Binding OnlineSyncCommand}"
+				Grid.Row="8"
+				Grid.Column="1"/>
 	</Grid>
 	
 </ContentPage>
