@@ -2,11 +2,20 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IOManager.Views.RestorePage"
+			 xmlns:viewModel="clr-namespace:IOManager.ViewModels"
+			 x:DataType="viewModel:RestoreViewModel"
              Title="RestorePage">
     <VerticalStackLayout>
-        <Label 
-            Text="Coming soon!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+		<Label
+			Text="Import From"/>
+		<Button
+			Text="Local"
+			Command="{Binding ImportLocalFileCommand}"/>
+
+		<Label
+			Text="Or"/>
+		<Button
+			Text="Internet"
+			Command="{Binding ImportCloudFileCommand}"/>
+	</VerticalStackLayout>
 </ContentPage>

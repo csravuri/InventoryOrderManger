@@ -25,6 +25,29 @@ namespace IOManager.Utils
 			return zipFileDestination;
 		}
 
+		public async Task RestoreZip(string fileFullPath)
+		{
+			if (!File.Exists(fileFullPath))
+			{
+				return;
+			}
+
+			var destination = GetATempFolder();
+			ZipFile.ExtractToDirectory(fileFullPath, destination);
+
+			var dbDataJson = Base64Decode(File.ReadAllText(Path.Combine(destination, DataFileName)));
+			var models = JsonSerializer.Deserialize<BackupModel>(dbDataJson);
+			if (models == null)
+			{
+				return;
+			}
+
+			await Save(models);
+			CopyImages(destination);
+		}
+
+		#region Backup
+
 		async Task<string> GetDbData()
 		{
 			var backup = new BackupModel
@@ -63,6 +86,81 @@ namespace IOManager.Utils
 			return System.Convert.ToBase64String(plainTextBytes);
 		}
 
+		#endregion
+
+		#region Restore
+
+		string Base64Decode(string base64EncodedData)
+		{
+			var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+			return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+		}
+
+		async Task Save(BackupModel models)
+		{
+			if (models.Items?.Count != 0)
+			{
+				await CreateOrUpdateItem(models.Items);
+			}
+
+			if (models.OrderHeaders?.Count != 0)
+			{
+				await CreateOrUpdateHeader(models.OrderHeaders);
+			}
+
+			if (models.OrderLines?.Count != 0)
+			{
+				await CreateOrUpdateLine(models.OrderLines);
+			}
+		}
+
+		async Task CreateOrUpdateItem(List<ItemModel> items)
+		{
+			foreach (var item in items)
+			{
+				var dbItem = await Connection.Get<ItemModel>(item.Id);
+				if (dbItem != null)
+				{
+					await Connection.Update(item);
+				}
+				else
+				{
+					await Connection.Create(item);
+				}
+			}
+		}
+
+		async Task CreateOrUpdateHeader(List<OrderHeaderModel> orderHeaders)
+		{
+			foreach (var header in orderHeaders)
+			{
+				var dbItem = await Connection.Get<OrderHeaderModel>(header.Id);
+				if (dbItem != null)
+				{
+					await Connection.Update(header);
+				}
+				else
+				{
+					await Connection.Create(header);
+				}
+			}
+		}
+
+		async Task CreateOrUpdateLine(List<OrderLineModel> orderLines)
+		{
+			await Connection.Create(orderLines);
+		}
+
+		void CopyImages(string destination)
+		{
+			var files = Directory.GetFiles(destination, "*.jpg");
+			foreach (var file in files)
+			{
+				File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), true);
+			}
+		}
+
+		#endregion
 
 		const string DataFileName = "Data.txt";
 		string ZipFileName => $"IOManagerBackup{GlobalConstants.UniqueName}.zip";
