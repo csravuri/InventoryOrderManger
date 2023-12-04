@@ -33,7 +33,7 @@ namespace IOManager.ViewModels
 		string description;
 
 		[ObservableProperty]
-		string imagePath = DefaultImagePath;
+		string imagePath = GlobalConstants.DefaultItemImage;
 
 		[ObservableProperty]
 		string title = CreateItemCaption;
@@ -75,7 +75,7 @@ namespace IOManager.ViewModels
 					PurchasePrice = PurchasePrice,
 					StockQuantity = StockQuantity,
 					Description = Description,
-					ImagePath = ImagePath
+					ImagePath = Path.GetFileName(ImagePath)
 				};
 
 				if (IsCreate)
@@ -118,13 +118,13 @@ namespace IOManager.ViewModels
 			PurchasePrice = null;
 			StockQuantity = null;
 			Description = null;
-			ImagePath = DefaultImagePath;
+			ImagePath = GlobalConstants.DefaultItemImage;
 		}
 
 		[RelayCommand]
 		async Task ImageTap()
 		{
-			if (ImagePath == DefaultImagePath)
+			if (ImagePath == GlobalConstants.DefaultItemImage)
 			{
 				var resultWhenDefaultImage = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, string.Empty, GalleryCaption, CameraCaption);
 				await GetImage(resultWhenDefaultImage);
@@ -134,7 +134,7 @@ namespace IOManager.ViewModels
 			var result = await Shell.Current.DisplayActionSheet(ImageCaption, BackCaption, RemoveCaption, GalleryCaption, CameraCaption);
 			if (result == RemoveCaption)
 			{
-				ImagePath = DefaultImagePath;
+				ImagePath = GlobalConstants.DefaultItemImage;
 				return;
 			}
 
@@ -163,9 +163,9 @@ namespace IOManager.ViewModels
 			var capturedImagePath = captureResult?.FullPath;
 			if (!string.IsNullOrEmpty(capturedImagePath))
 			{
-				var destiantion = GetDestination(capturedImagePath);
-				File.Move(capturedImagePath, destiantion);
-				ImagePath = destiantion;
+				var destination = GetImageFullPath(capturedImagePath);
+				File.Move(capturedImagePath, destination);
+				ImagePath = destination;
 			}
 		}
 
@@ -179,13 +179,13 @@ namespace IOManager.ViewModels
 			var pickedImagePath = captureResult?.FullPath;
 			if (!string.IsNullOrEmpty(pickedImagePath))
 			{
-				var destiantion = GetDestination(pickedImagePath, true);
-				File.Copy(pickedImagePath, destiantion);
-				ImagePath = destiantion;
+				var destination = GetImageFullPath(pickedImagePath, true);
+				File.Copy(pickedImagePath, destination);
+				ImagePath = destination;
 			}
 		}
 
-		string GetDestination(string sourcePath, bool newFileForDestiantion = false)
+		string GetImageFullPath(string sourcePath, bool newFileFordestination = false)
 		{
 			if (!Directory.Exists(ImagesSubFolderPath))
 			{
@@ -194,7 +194,7 @@ namespace IOManager.ViewModels
 
 			var fileName = Path.GetFileNameWithoutExtension(sourcePath);
 			var extention = Path.GetExtension(sourcePath);
-			if (newFileForDestiantion)
+			if (newFileFordestination)
 			{
 				fileName = Guid.NewGuid().ToString().Replace("-", "");
 			}
@@ -217,7 +217,7 @@ namespace IOManager.ViewModels
 				PurchasePrice = item.PurchasePrice;
 				StockQuantity = item.StockQuantity;
 				Description = item.Description;
-				ImagePath = item.ImagePath;
+				ImagePath = item.ImagePath == GlobalConstants.DefaultItemImage ? item.ImagePath : Path.Combine(ImagesSubFolderPath, item.ImagePath);
 				modelId = item.Id;
 
 				Title = UpdateItemCaption;
@@ -225,18 +225,16 @@ namespace IOManager.ViewModels
 			}
 		}
 
-		const string DefaultImagePath = "default_image.png";
 		const string BackCaption = "Back";
 		const string RemoveCaption = "Remove";
 		const string GalleryCaption = "Gallery";
 		const string CameraCaption = "Camera";
 		const string ImageCaption = "Image";
-		const string ImagesSubFolder = "Images";
 		const string CreateItemCaption = "Create Item";
 		const string UpdateItemCaption = "Update Item";
 
 		DbConnection Connection { get; }
-		readonly string ImagesSubFolderPath = Path.Combine(GlobalConstants.RootFolder, ImagesSubFolder);
+		readonly string ImagesSubFolderPath = GlobalConstants.ImagesFolder;
 		Guid modelId;
 	}
 }
