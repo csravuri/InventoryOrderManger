@@ -21,6 +21,7 @@ namespace IOManager.Utils
 			var zipFileDestination = Path.Combine(GetATempFolder(), ZipFileName);
 			ZipFile.CreateFromDirectory(dataFolder, zipFileDestination, CompressionLevel.Fastest, false);
 
+			Directory.Delete(dataFolder, true);
 			return zipFileDestination;
 		}
 

@@ -51,10 +51,15 @@ namespace IOManager.ViewModels
 		}
 
 		[RelayCommand]
-		void Done()
+		async Task Done()
 		{
 			Status = string.Empty;
+			if (File.Exists(ZipFilePath))
+			{
+				File.Delete(ZipFilePath);
+			}
 			ZipFilePath = string.Empty;
+			await Shell.Current.GoToAsync("..");
 		}
 
 		[ObservableProperty]
