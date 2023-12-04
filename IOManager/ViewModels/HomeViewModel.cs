@@ -56,17 +56,5 @@ namespace IOManager.ViewModels
 		{
 			await Shell.Current.GoToAsync($"{nameof(RestorePage)}");
 		}
-
-		[RelayCommand]
-		async Task OfflineSync()
-		{
-			await Shell.Current.GoToAsync($"{nameof(OfflineSyncPage)}");
-		}
-
-		[RelayCommand]
-		async Task OnlineSync()
-		{
-			await Shell.Current.GoToAsync($"{nameof(OnlineSyncPage)}");
-		}
 	}
 }
